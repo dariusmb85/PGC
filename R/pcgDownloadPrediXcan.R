@@ -4,7 +4,7 @@
 #' @export
 
 pgcDownloadPrediXcan <- function(destDir = "PrediXcan") {
-  dir.exists(destDir) # added comment
+  dir.exists(destDir) # added comment 2
   dir.create(destDir)
   download.file(, destfile = destDir)
 }
