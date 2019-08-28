@@ -4,7 +4,7 @@
 #' @import RSQLite
 #' @export
 
-pgcCombinePredxFiles <- function{
+pgcCombinePredxFiles <- function(){
   #creats list of all database filenames
   fnames <- list.files(pattern = ".db$", full.names = TRUE, recursive = TRUE)
   #creates empty list that we will add to
