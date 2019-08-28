@@ -7,14 +7,18 @@
 \alias{pgcGetPredxWeights}
 \title{Download the PrediXcan database}
 \usage{
-pgcDownloadPrediXcan(predDir = "PrediXcan", overwrite = FALSE)
+pgcDownloadPrediXcan(downloadDest = "PrediXcan", rmTar = TRUE)
 
 pgcCombinePredxFiles(predDir)
 
 pgcGetPredxWeights(predDB)
 }
 \arguments{
-\item{predDir}{character of length 1, the download directory}
+\item{downloadDest}{character of length 1, the download directory}
+
+\item{rmTar}{logical of length 1, Should orginal tar file be removed?}
+
+\item{predDir}{character of length 1, directory where db files have been stored}
 
 \item{predDB}{character of length 1, file path to a predXcan .db file}
 }

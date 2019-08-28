@@ -1,6 +1,7 @@
 #' @name predXUtils
 #' @title Download the PrediXcan database
-#' @param predDir character of length 1, the download directory
+#' @param downloadDest character of length 1, the download directory
+#' @param rmTar logical of length 1, Should orginal tar file be removed?
 #' @param predDB character of length 1, file path to a predXcan .db file
 
 NULL
@@ -8,21 +9,21 @@ NULL
 #' @describeIn predXUtils Download predXcan to the given directory
 #' @export
 
-pgcDownloadPrediXcan <- function(predDir = "PrediXcan", overwrite = FALSE) {
-  if (!dir.exists(predDir)) {
-    dir.create(predDir)
-  } else if (!overwrite) {
-    unlink(predDir, recursive = TRUE, force = TRUE)
-    dir.create(predDir)
-  } else {
-    stop("")
+pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
+  if (!dir.exists(downloadDest)) {
+    stop("The given download destination does not exist")
   }
-  predUrl <- "https://s3.amazonaws.com/predictdb2"
-  u <- "deprecated/GTEx-V6p-HapMap-2016-09-08.tar.gz"
-  download.file(paste(predUrl, u, sep = "/"), destfile = predDir)
+  predUrl <- "https://s3.amazonaws.com/predictdb2/deprecated"
+  f <- "GTEx-V6p-HapMap-2016-09-08.tar.gz"
+  tf <- file.path(downloadDest, f)
+  download.file(paste(predUrl, f, sep = "/"), destfile = tf)
+  untar(tf)
+  file.remove(tf)
+  sub(".tar.gz$", '', tf)
 }
 
 #' @describeIn predXUtils Combine tissues weights into single data.table object
+#' @param predDir character of length 1, directory where db files have been stored
 #' @import data.table
 #' @export
 
@@ -55,3 +56,4 @@ pgcGetPredxWeights <- function(predDB) {
   dat[]
   
 }
+
