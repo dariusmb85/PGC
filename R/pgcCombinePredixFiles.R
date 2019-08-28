@@ -7,8 +7,10 @@
 pgcCombinePredxFiles <- function(){
   #creats list of all database filenames
   fnames <- list.files(pattern = ".db$", full.names = TRUE, recursive = TRUE)
+  
   #creates empty list that we will add to
   datlist <- list()
+  
   #loops through filenames
   for (f in fnames) {
     
