@@ -4,7 +4,7 @@
 #' @export
 
 pgcDownloadPrediXcan <- function(destDir = "PrediXcan") {
-  dir.exists(destDir) # added comment 5
+  dir.exists(destDir) 
   dir.create(destDir)
-  download.file(, destfile = destDir)
+  download.file("https://s3.amazonaws.com/predictdb2/deprecated/GTEx-V6p-HapMap-2016-09-08.tar.gz", destfile = destDir)
 }
