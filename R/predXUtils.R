@@ -10,6 +10,7 @@ NULL
 #' @export
 
 pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
+  
   if (!dir.exists(downloadDest)) {
     stop("The given download destination does not exist")
   }
@@ -18,7 +19,9 @@ pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
   tf <- file.path(downloadDest, f)
   download.file(paste(predUrl, f, sep = "/"), destfile = tf)
   untar(tf)
-  file.remove(tf)
+  if (rmTar){
+    file.remove(tf)
+  }
   sub(".tar.gz$", '', tf)
 }
 
