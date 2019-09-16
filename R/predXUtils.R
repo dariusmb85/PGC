@@ -37,6 +37,7 @@ pgcCombinePredxFiles <- function(predDir) {
   #creates empty list that we will add to
   datList <- lapply(fnames, pgcGetPredxWeights)
   dat <- rbindlist(datList)
+  saveRDS(dat,"combinedWeightFiles.rds")
   dat[]
   
 }
