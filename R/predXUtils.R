@@ -30,7 +30,7 @@ pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
 #' @import data.table
 #' @export
 
-pgcCombinePredxFiles <- function(predDir) {
+pgcCombinePredxFiles <- function(predDir, SubsetByTissue = FALSE) {
   
   #creats list of all database filenames
   fnames <- list.files(path = predDir, pattern = ".db$", full.names = TRUE)
@@ -39,6 +39,28 @@ pgcCombinePredxFiles <- function(predDir) {
   dat <- rbindlist(datList)
   saveRDS(dat,"combinedWeightFiles.rds")
   dat[]
+  
+  if (SubsetByTissue == TRUE){
+    tl <- pgcListTissues(dat)
+    print(tl)
+    print("Type Tissue name to subset new weights file\n")
+    tiss <- readline("ex.'Brain_Cortex' for Brain Cortex or 'Brain' for every Brain tissue:")
+    dat <- pgcSubsetTissues(tiss)
+  }
+  dat[]
+}
+
+#' @describeIn predXUtils Returns list of tissues involved in all prediXcan .db
+#' @param combWts character of length 1, directory where db files have been stored
+#' @import data.table
+#' @export
+
+
+pgcListTissues <- function(combWts){
+  
+  readline("Here is s alist of tissues: Press any key")
+  tissList <- unique(as.data.table(combWts)[[6]])
+  tissList
   
 }
 
@@ -61,3 +83,14 @@ pgcGetPredxWeights <- function(predDB) {
   
 }
 
+#' @describeIn predUtils Subsets combined weight table for a specific tissue or tissues
+#' @import plyr data.table
+#' @export
+
+pgcSubsetTissues <- function(tis) {
+
+  #combWts <- readRDS("combinedWeightFiles.rds")
+  dat <- combWts[grep(tis, combWts$tissue), ]
+  dat[]
+  
+}
