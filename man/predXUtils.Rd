@@ -4,12 +4,15 @@
 \alias{predXUtils}
 \alias{pgcDownloadPrediXcan}
 \alias{pgcCombinePredxFiles}
+\alias{pgcListTissues}
 \alias{pgcGetPredxWeights}
 \title{Download the PrediXcan database}
 \usage{
 pgcDownloadPrediXcan(downloadDest = "PrediXcan", rmTar = TRUE)
 
-pgcCombinePredxFiles(predDir)
+pgcCombinePredxFiles(predDir, SubsetByTissue = FALSE)
+
+pgcListTissues(combWts)
 
 pgcGetPredxWeights(predDB)
 }
@@ -19,6 +22,8 @@ pgcGetPredxWeights(predDB)
 \item{rmTar}{logical of length 1, Should orginal tar file be removed?}
 
 \item{predDir}{character of length 1, directory where db files have been stored}
+
+\item{combWts}{character of length 1, directory where db files have been stored}
 
 \item{predDB}{character of length 1, file path to a predXcan .db file}
 }
@@ -30,6 +35,8 @@ Download the PrediXcan database
 \item \code{pgcDownloadPrediXcan}: Download predXcan to the given directory
 
 \item \code{pgcCombinePredxFiles}: Combine tissues weights into single data.table object
+
+\item \code{pgcListTissues}: Returns list of tissues involved in all prediXcan .db
 
 \item \code{pgcGetPredxWeights}: Reads weight table from the given predXcan .db file
 }}
