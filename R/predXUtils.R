@@ -84,6 +84,7 @@ pgcGetPredxWeights <- function(predDB) {
 }
 
 #' @describeIn predUtils Subsets combined weight table for a specific tissue or tissues
+#' @param tis character of length 1, Tissue you want to subset combined weights file by
 #' @import plyr data.table
 #' @export
 
