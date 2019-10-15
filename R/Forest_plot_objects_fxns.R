@@ -130,8 +130,6 @@ pred_gtex <- function(tis, trans, dmd, snps){
                          slope, slope_se, pval_nominal)]
   setkey(gtexNew, rs_id_dbSNP147_GRCh37p13)
   gtexNew <- gtexNew[snps]
-  # fV <- gtex[,variant_id]
-  # isnp <- convertVariantToRSID(fV, dmd)
   gtexNew[]
 }
 
