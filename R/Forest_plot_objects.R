@@ -55,22 +55,12 @@ cohorts <- cohorts[respIn]
 #       gwas beta se
 # Add separate data table for subplot construction of the forest plots
 
-setwd("/projects/sequence_analysis/vol3/UCSFplink/avsnp150/")
-file_list <-list.files(pattern= "*hg19_multianno.txt$",
-                       full.names = TRUE)
-files <- lapply(file_list, function(x) fread(x, header = TRUE, 
-                                             data.table=TRUE))
-annoVarsnp <- rbindlist(files)
-rm(files)
-setnames(annoVarsnp,old = c("Start", "End"), new = c("BEG", "END"))
-setwd(basedir)
-
 #####FIX buildVariantToRSIDmap() too slow ########
 #densemapdata <- buildVariantToRSIDmap()
 filepath <- file.path("","projects","sequence_analysis","vol3",
                       "predix_Scan","GTEx-V6p_flowOver","gtex_data",
                       "")
-filename <- paste(filepath,
+gtexFile <- paste(filepath,
                   "GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_635Ind_PASS_AB02_GQ20_HETX_MISS15_PLINKQC.lookup_table.txt",
                   sep="")
 
@@ -129,6 +119,17 @@ print(df_predixcan)
 # the Phenotype_SNPs GWAS data and build a data frame
 # Keep the object SNPlist for the GTEX data object as well
 
+setwd(file.path("","projects","sequence_analysis","vol3",
+      "UCSFplink","avsnp150"))
+file_list <-list.files(pattern= "*hg19_multianno.txt$",
+                       full.names = TRUE)
+files <- lapply(file_list, function(x) fread(x, header = TRUE, 
+                                             data.table=TRUE))
+annoVarsnp <- rbindlist(files)
+rm(files)
+setnames(annoVarsnp,old = c("Start", "End"), new = c("BEG", "END"))
+setwd(basedir)
+
 SNPfiles <- buildSNPfiles(phe = cohorts)
 SNProws <- fread(SNPfiles)
 rm(SNPfiles)
@@ -150,8 +151,7 @@ rm(SNProws)
 rm(weights)
 print('Process SNP data')
 df_gwas <- rowbetas[, .(avsnp150, BETA,
-                        SEBETA, PVALUE),
-                    nomatch = 0]
+                        SEBETA, PVALUE)]
 rm(rowbetas)
 pred <- cohorts
 df_gwas <- cbind(df_gwas, pred)
@@ -168,7 +168,7 @@ print(cohorts)
 print(tissues)
 print(transcript)
 
-gtexDat <- fread(filename, stringsAsFactors = FALSE, h = TRUE)
+gtexDat <- fread(gtexFile, stringsAsFactors = FALSE, h = TRUE)
 setkey(gtexDat, rs_id_dbSNP147_GRCh37p13)
 densemapdata <- gtexDat[!("."), .(variant_id,
                                   rs_id_dbSNP147_GRCh37p13)] 

@@ -1,11 +1,5 @@
 ################################################################################
 # Outputs: Build forest plotname nomenclature including the input metadata and
-# phenotype/cohort/transcript targets
-# constructPlotname <- function(forestMetaPlotname,cohort,transcript){
-#   name <- paste(forestMetaPlotname,paste(cohort,paste(transcript,"pdf",sep="."),
-#                                               sep="_"), sep="_")
-#   return (name)
-# }
 
 # Finetune how tissue names are presented to the Forest plotter
 pruneNameForPlot <- function(itissue){
