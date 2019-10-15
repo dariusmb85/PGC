@@ -181,7 +181,6 @@ df_gtex <- rbindlist(gtex)
 setwd("forest_plot_dataFiles")
 setnames(df_gtex, c("Tissue", 'SNP', 'beta',
                     'se', 'pval'))
-print(head(df_gtex))
 # df_cpassoc
 # df_predixcan
 # head(df_gwas)
