@@ -6,6 +6,7 @@
 \alias{pgcCombinePredxFiles}
 \alias{pgcListTissues}
 \alias{pgcGetPredxWeights}
+\alias{pgcSubsetTissues}
 \title{Download the PrediXcan database}
 \usage{
 pgcDownloadPrediXcan(downloadDest = "PrediXcan", rmTar = TRUE)
@@ -15,6 +16,8 @@ pgcCombinePredxFiles(predDir, SubsetByTissue = FALSE)
 pgcListTissues(combWts)
 
 pgcGetPredxWeights(predDB)
+
+pgcSubsetTissues(tis)
 }
 \arguments{
 \item{downloadDest}{character of length 1, the download directory}
@@ -26,6 +29,8 @@ pgcGetPredxWeights(predDB)
 \item{combWts}{character of length 1, directory where db files have been stored}
 
 \item{predDB}{character of length 1, file path to a predXcan .db file}
+
+\item{tis}{character of length 1, Tissue you want to subset combined weights file by}
 }
 \description{
 Download the PrediXcan database
@@ -39,5 +44,7 @@ Download the PrediXcan database
 \item \code{pgcListTissues}: Returns list of tissues involved in all prediXcan .db
 
 \item \code{pgcGetPredxWeights}: Reads weight table from the given predXcan .db file
+
+\item \code{pgcSubsetTissues}: Subsets combined weight table for a specific tissue or tissues
 }}
 

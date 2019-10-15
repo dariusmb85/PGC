@@ -46,6 +46,7 @@ pgcCombinePredxFiles <- function(predDir, SubsetByTissue = FALSE) {
     print("Type Tissue name to subset new weights file\n")
     tiss <- readline("ex.'Brain_Cortex' for Brain Cortex or 'Brain' for every Brain tissue:")
     dat <- pgcSubsetTissues(tiss)
+    saveRDS(dat,"combinedWeightFiles.rds")
   }
   dat[]
 }
@@ -83,14 +84,14 @@ pgcGetPredxWeights <- function(predDB) {
   
 }
 
-#' @describeIn predUtils Subsets combined weight table for a specific tissue or tissues
+#' @describeIn predXUtils Subsets combined weight table for a specific tissue or tissues
 #' @param tis character of length 1, Tissue you want to subset combined weights file by
 #' @import plyr data.table
 #' @export
 
 pgcSubsetTissues <- function(tis) {
 
-  #combWts <- readRDS("combinedWeightFiles.rds")
+  combWts <- readRDS("combinedWeightFiles.rds")
   dat <- combWts[grep(tis, combWts$tissue), ]
   dat[]
   
