@@ -8,12 +8,13 @@ setClass("cpRes",
                    cpAssoc = "data.table",
                    stAssoc = "data.table",
                    gwas = "data.table",
-                   gtex = "data.table"))
+                   gtex = "data.table",
+                   predWts = "data.table"))
 
 cpRes <- function(trans, resp, pred, gene, cpAssoc,
-                  stAssoc, gwas, gtex){
+                  stAssoc, gwas, gtex, predWts){
   cpOb<- new("cpRes", trans = trans, resp = resp, pred = pred,
              gene = gene, cpAssoc = cpAssoc, stAssoc = stAssoc,
-             gwas = gwas, gtex = gtex)
+             gwas = gwas, gtex = gtex, predWts = predWts)
   cpOb
 }
