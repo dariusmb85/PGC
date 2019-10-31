@@ -68,7 +68,7 @@ df_cpassoc <- data.table()
 df_gtex <- data.table()
 df_gwas <- data.table()
 df_predixcan <- data.table()
-
+df_PrdxWts <- data.table()
 
 print(paste('Processing next cohort', cohorts, sep="="))
 
@@ -127,7 +127,8 @@ files <- lapply(file_list, function(x) fread(x, header = TRUE,
                                              data.table=TRUE))
 annoVarsnp <- rbindlist(files)
 rm(files)
-setnames(annoVarsnp,old = c("Start", "End"), new = c("BEG", "END"))
+setnames(annoVarsnp,old = c("Start", "End"), 
+         new = c("BEG", "END"))
 setwd(basedir)
 
 SNPfiles <- buildSNPfiles(phe = cohorts)
@@ -140,13 +141,15 @@ SNProws <- SNProws[annoVarsnp]
 rm(annoVarsnp)
 
 fname <- combBrain
-#fname <- '/projects/sequence_analysis/vol3/prediXcan/GTEx-V6p-HapMap-2016-09-08/CombinedDB_Brain.txt'
 weights <- fread(fname)
 
-SNPlist <- unique(weights[weights[, gene] == transcript, rsid])
+SNPlist <- unique(weights[weights[, gene] == transcript,
+                          rsid])
 setkey(SNProws, avsnp150)
 rowbetas <- SNProws[J(SNPlist), 
                     .(avsnp150, BETA, SEBETA , PVALUE)]
+df_PrdxWts <- weights[weights[,gene] == transcript,
+                      .(tissue,rsid, weight)]
 rm(SNProws)
 rm(weights)
 print('Process SNP data')
@@ -187,7 +190,7 @@ setnames(df_gtex, c("Tissue", 'SNP', 'beta',
 # head(df_gtex)
 # 2298884
 datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
-                df_cpassoc, df_predixcan, df_gwas, df_gtex)
+                df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
 saveRDS(datObj, file = paste(transcript, cohorts, transcriptName,
                              "Across_Tissue.datObj", sep = "_"))
 setwd(basedir)
