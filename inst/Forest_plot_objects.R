@@ -158,7 +158,7 @@ df_gwas <- rowbetas[, .(avsnp150, BETA,
 rm(rowbetas)
 pred <- cohorts
 df_gwas <- cbind(df_gwas, pred)
-setnames(df_gwas, c('SNP', 'beta', 'se',
+setnames(df_gwas, c('SNP', 'weight', 'se',
                     'pval', 'predictor'))
 rownames(df_gwas) <- NULL
 print(head(df_gwas))
@@ -182,7 +182,7 @@ gtex <- lapply(tissues, pred_gtex, trans = transcript,
 df_gtex <- rbindlist(gtex)
 
 setwd("forest_plot_dataFiles")
-setnames(df_gtex, c("Tissue", 'SNP', 'beta',
+setnames(df_gtex, c("Tissue", 'SNP', 'weight',
                     'se', 'pval'))
 
 setnames(df_PrdxWts, c("Tissue","SNP","weight"))
@@ -195,7 +195,7 @@ df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
 # df_predixcan
 # head(df_gwas)
 # head(df_gtex)
-# 2298884
+# 2496260
 datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
                 df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
 saveRDS(datObj, file = paste(transcript, cohorts, transcriptName,
