@@ -33,7 +33,7 @@ transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
 
 ##Testing
-#  transcriptIn <- c('ENSG00000127399.10')#,'ENSG00000084072.12','ENSG00000165502.6',
+# transcriptIn <- c('ENSG00000127399.10')#,'ENSG00000084072.12','ENSG00000165502.6',
                   # 'ENSG00000213402.2','ENSG00000197958.8','ENSG00000184983.5',
                   # 'ENSG00000196071.3','ENSG00000237765.2','ENSG00000186230.6',
                   # 'ENSG00000164989.11','ENSG00000183605.12','ENSG00000176390.10',
@@ -184,6 +184,13 @@ df_gtex <- rbindlist(gtex)
 setwd("forest_plot_dataFiles")
 setnames(df_gtex, c("Tissue", 'SNP', 'beta',
                     'se', 'pval'))
+
+setnames(df_PrdxWts, c("Tissue","SNP","weight"))
+setkey(df_gtex, Tissue, SNP)
+setkey(df_PrdxWts, Tissue, SNP)
+
+df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
+
 # df_cpassoc
 # df_predixcan
 # head(df_gwas)
