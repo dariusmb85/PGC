@@ -107,6 +107,7 @@ print(transcript)
 df_predixcan <- lapply(tissues, pred_df, coh = cohorts, 
                        basedir = basedir)
 df_predixcan <- rbindlist(df_predixcan)
+setnames(df_predixcan, c('Tissue','weight','se','pval'))
 print(df_predixcan)
 
 # For each SNP of this transcript. Grab all the known 

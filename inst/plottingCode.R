@@ -100,12 +100,12 @@ pltCPA <- function(x) {
   shetP <- formatC(x@cpAssoc$sHetPval, format = "e", digits = 2)
   text(x = 0.8, y = 1, adj = c(0, 0.5), shetP, cex = 1.5)
   
-  with(x@stAssoc[order(Tissue)], pltStd(Tissue, pval, beta, se))
-  with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, beta, se))
+  with(x@stAssoc[order(Tissue)], pltStd(Tissue, pval, weight, se))
+  with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, weight, se))
   title(ylab = "GWAS Model")
-  with(x@predWts[order(rsid, tissue)], pltPtEst(tissue, rsid, weight))
+  with(x@predWts[order(SNP, Tissue)], pltPtEst(Tissue, SNP, weight))
   title(ylab = "PredXcan Model")
-  with(x@gtex[order(SNP, Tissue)], pltRange(Tissue, SNP, beta, se))
+  with(x@gtex[order(SNP, Tissue)], pltRange(Tissue, SNP, weight, se))
   title(ylab = "GTEx Model")
   
 }
