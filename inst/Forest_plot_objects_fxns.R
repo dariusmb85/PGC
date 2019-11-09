@@ -97,8 +97,8 @@ buildGTEXfilenames <- function(tissue) {
 ################################################################################
 
 pred_df <- function(tis, coh, basedir){
-  filename <- file.path(basedir, coh, paste0(tis, ".TW_Brain_", tis,
-                                             "_0.5.db_Univariate_Covariates_Output_", coh,
+  filename <- file.path(basedir, coh, paste0(tis,
+                                             "_Univariate_Covariates_Output_", coh,
                                              ".assoc.txt"))
   trans <- fread(filename)
   setkey(trans, rs)

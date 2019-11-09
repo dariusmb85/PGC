@@ -2,15 +2,15 @@
 library('data.table')
 source('Forest_plot_objects_fxns.R')
 
-basedir <- file.path("","projects","sequence_analysis","vol3",
-                     "UCSFplink","GemmaGTEx_V6p","output")
+basedir <- file.path("","projects","sequence_analysis","vol5",
+                     "dariusmb","PGC","output")
 cohorts <- c("Alc_Dep","Family_Alcoholism","MarijuanaStrDsr","MJ","NIC")
 tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
-          ,'Cerebellum','Frontal_Cortex','Hypothalamus','Putamen_basal_ganglia')
+          ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
 
-combBrain <- file.path("","projects","sequence_analysis","vol3","prediXcan",
-                       "GTEx-V6p-HapMap-2016-09-08","CombinedDB_Brain.txt")
+combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
+                       "PGC","CombinedWeightsBrain.csv")
 ################################################################################
 
 options(echo = FALSE) # if you want see commands in output file
@@ -79,7 +79,7 @@ transcript <- transcriptIn
 # SHow contribution of COHORT to the overall CPASSOC
 
 print('Process CPASSOC')
-cpFile <- file.path("MetaAnalysis_AcrossTissue_Restricted","FDR",
+cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
                     "FDR_Anno",paste0("MetaxTissue_",
                                       cohorts, "-FDR.Anno.txt"))
 ccData <- fread(cpFile, stringsAsFactors = FALSE, h=TRUE)
