@@ -16,7 +16,7 @@ pruneNameForPlot <- function(itissue){
 #Needed because of the epacts runs
 buildSNPfiles <- function(phe){
   switch(phe,
-         "MarijuanaStrDsr"={
+         "Marijuana_Strong_Desire"={
            snpF <- paste0("/projects/sequence_analysis/vol3/UCSFplink/epacts/", phe,
                           "_filtered/Marajuana_Strong_Desire.all.epacts")
          },
