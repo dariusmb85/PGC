@@ -4,7 +4,7 @@ source('Forest_plot_objects_fxns.R')
 
 basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC","output")
-cohorts <- c("Alc_Dep","Family_Alcoholism","MarijuanaStrDsr","MJ","NIC")
+cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
 tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
