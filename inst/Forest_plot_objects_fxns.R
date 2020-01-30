@@ -135,7 +135,7 @@ AlzCohortBuilder <- function(coh,phe){
     for(j in 1:length(phe)){
       cohorts <- paste0(coh[i],"_",phe[j])
       newCoh <- c(newCoh,cohorts)
-    }
+    }#Commit
   }
   return (newCoh)
 }
