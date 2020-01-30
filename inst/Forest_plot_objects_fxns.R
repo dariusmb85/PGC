@@ -129,5 +129,14 @@ pred_gtex <- function(tis, trans, dmd, snps){
 
 #################################################################################
 
-
+AlzCohortBuilder <- function(coh,phe){
+  newCoh <- c()
+  for(i in 1:length(coh)){
+    for(j in 1:length(phe)){
+      cohorts <- paste0(coh[i],"_",phe[j])
+      newCoh <- c(newCoh,cohorts)
+    }
+  }
+  return (newCoh)
+}
 ################################################################################
