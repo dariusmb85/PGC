@@ -1,16 +1,38 @@
 ################################################################################
 library('data.table')
-source('Forest_plot_objects_fxns.R')
+source('/home/dariusmb/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
 
 basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC","output")
+# basedir <- file.path("","projects","sequence_analysis","vol3",
+#                      "predix_Scan","GTEx-V6p_flowOver","GEMMApipe_3"
+#                      ,"output")
+
 cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
+#cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD","ROSMAP","TARCC","TGEN2","WASHU")
+
+#pheno <- c("AAO","LOAD")
+
+# if(cohorts[1] == "ADGC"){
+#   cohorts <- AlzCohortBuilder(cohorts,pheno)
+# }
 tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
 
+
+# tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
+#           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
+#           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia',
+#           'Substantia_nigra')
+
+
 combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
                        "PGC","CombinedWeightsBrain.csv")
+
+# combBrain <- file.path("","projects","sequence_analysis","vol3","predix_Scan",
+#                       "GTEx-V6p_flowOver","GEMMApipe_3","NewCombinedDBEdit.csv")
+
 ################################################################################
 
 options(echo = FALSE) # if you want see commands in output file
@@ -22,7 +44,7 @@ forestMetaPlotname <- "AcrossTissue"
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
-
+analysis     <- eval(parse(text = args[4]))
 
 # print(args)
 #print(transcriptIn)
@@ -39,12 +61,13 @@ respIn <- resp[transNumID]
                   # 'ENSG00000164989.11','ENSG00000183605.12','ENSG00000176390.10',
                   # 'ENSG00000157895.7','ENSG00000186470.9','ENSG00000186468.8',
                   # 'ENSG00000103021.5','ENSG00000084207.11')
-
+#transcriptIn <- c('ENSG00000198496.6')
 #translength <- length(transcriptIn)
 
 ###Testing
 # tissues <- tissues[1:2]
 # respIn <- 5
+#respIn <- 9
 cohorts <- cohorts[respIn]
 
 
@@ -82,6 +105,11 @@ print('Process CPASSOC')
 cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
                     "FDR_Anno",paste0("MetaxTissue_",
                                       cohorts, "-FDR.Anno.txt"))
+
+# cpFile <- file.path("Across_Tissue_AAO","FDR",
+#                     "FDR_Anno",paste0("MetaxTissue_",
+#                                       cohorts, "-FDR.Anno.txt"))
+
 ccData <- fread(cpFile, stringsAsFactors = FALSE, h=TRUE)
 setkey(ccData, rs)
 transcriptName <- ccData[transcript, gene_name]  
