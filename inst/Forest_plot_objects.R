@@ -40,7 +40,7 @@ args <- commandArgs(trailingOnly = TRUE)
 transcriptIn <- args[1]
 transNumID   <- args[2]
 resp         <- args[3]
-forestMetaPlotname <- "AcrossTissue"
+analysis     <- args[4]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
@@ -227,8 +227,8 @@ df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
 # 2496260
 datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
                 df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
-saveRDS(datObj, file = paste(transcript, cohorts, transcriptName,
-                             "Across_Tissue.datObj", sep = "_"))
+saveRDS(datObj, file = paste(transcript, cohorts, transcriptName, 
+                             analysis,".datObj", sep = "_"))
 setwd(basedir)
 
 #print('finished')
