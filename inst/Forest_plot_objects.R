@@ -44,7 +44,7 @@ analysis     <- args[4]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
-analysis     <- eval(parse(text = args[4]))
+#analysis     <- eval(parse(text = args[4]))
 
 # print(args)
 #print(transcriptIn)
@@ -61,7 +61,7 @@ respIn <- resp[transNumID]
                   # 'ENSG00000164989.11','ENSG00000183605.12','ENSG00000176390.10',
                   # 'ENSG00000157895.7','ENSG00000186470.9','ENSG00000186468.8',
                   # 'ENSG00000103021.5','ENSG00000084207.11')
-#transcriptIn <- c('ENSG00000198496.6')
+#transcriptIn <- c('ENSG00000186468.8')
 #translength <- length(transcriptIn)
 
 ###Testing
