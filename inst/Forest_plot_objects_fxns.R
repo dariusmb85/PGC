@@ -97,15 +97,28 @@ buildGTEXfilenames <- function(tissue) {
 }
 ################################################################################
 
-pred_df <- function(tis, coh, basedir){
-  filename <- file.path(basedir, coh, paste0(tis,
-                                             "_Univariate_Covariates_Output_", coh,
-                                             ".assoc.txt"))
-  trans <- fread(filename)
-  setkey(trans, rs)
-  row <- trans[J(transcript), .(beta, se, p_score)]
-  df_row <- data.table(tis,row)
-  setnames(df_row,c('Tissue', 'weight', 'se', 'pval')) 
+pred_df <- function(tis, coh, basedir, CorT){
+  switch(CorT,
+         "T"={
+           filename <- file.path(basedir, coh, paste0(tis,
+                                                      "_Univariate_Covariates_Output_", coh,
+                                                      ".assoc.txt"))
+           trans <- fread(filename)
+           setkey(trans, rs)
+           row <- trans[J(transcript), .(beta, se, p_score)]
+           df_row <- data.table(tis,row)
+           setnames(df_row,c('Tissue', 'weight', 'se', 'pval'))
+         },
+         "C"={
+           filename <- file.path(basedir, coh, paste0(tis,
+                                                      "_Univariate_Covariates_Output_", coh,
+                                                      ".assoc.txt"))
+           trans <- fread(filename)
+           setkey(trans, rs)
+           row <- trans[J(transcript), .(beta, se, p_score)]
+           df_row <- data.table(coh,row)
+           setnames(df_row,c('Cohort', 'weight', 'se', 'pval')) 
+         })
   df_row[]
 }
 

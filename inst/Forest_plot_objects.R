@@ -41,6 +41,7 @@ transcriptIn <- args[1]
 transNumID   <- args[2]
 resp         <- args[3]
 analysis     <- args[4]
+CorT         <- args[5]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
@@ -61,15 +62,20 @@ respIn <- resp[transNumID]
                   # 'ENSG00000164989.11','ENSG00000183605.12','ENSG00000176390.10',
                   # 'ENSG00000157895.7','ENSG00000186470.9','ENSG00000186468.8',
                   # 'ENSG00000103021.5','ENSG00000084207.11')
-#transcriptIn <- c('ENSG00000186468.8')
+#transcriptIn <- c('ENSG00000127824.9')
 #translength <- length(transcriptIn)
 
 ###Testing
-# tissues <- tissues[1:2]
+#tissues <- tissues[1:2]
 # respIn <- 5
 #respIn <- 9
-cohorts <- cohorts[respIn]
+#cohorts <- cohorts[respIn]
 
+##Testing X Cohorts
+cohorts <- cohorts[1:3]
+respIn  <- 9
+tissues <- tissues[respIn]
+CorT    <- "C"
 
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
@@ -101,10 +107,16 @@ transcript <- transcriptIn
 # grab the CPASSOC Across cohort result for the current transcript 
 # SHow contribution of COHORT to the overall CPASSOC
 
+#Across Tissue
+# print('Process CPASSOC')
+# cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
+#                     "FDR_Anno",paste0("MetaxTissue_",
+#                                       cohorts, "-FDR.Anno.txt"))
+#Across Cohort
 print('Process CPASSOC')
-cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
-                    "FDR_Anno",paste0("MetaxTissue_",
-                                      cohorts, "-FDR.Anno.txt"))
+cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
+                    "FDR_Anno",paste0("MetaxPheno_",
+                                      tissues,"-FDR.Anno.txt"))
 
 # cpFile <- file.path("Across_Tissue_AAO","FDR",
 #                     "FDR_Anno",paste0("MetaxTissue_",
@@ -132,8 +144,14 @@ print("Process Tissues")
 print(tissues)
 print(cohorts)
 print(transcript)
-df_predixcan <- lapply(tissues, pred_df, coh = cohorts, 
-                       basedir = basedir)
+
+#Across Tissues
+df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
+                       basedir = basedir, CorT = CorT)
+#Across Cohorts
+df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
+                       basedir = basedir, CorT = CorT)
+
 df_predixcan <- rbindlist(df_predixcan)
 setnames(df_predixcan, c('Tissue','weight','se','pval'))
 print(df_predixcan)
