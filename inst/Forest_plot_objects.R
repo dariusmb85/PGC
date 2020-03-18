@@ -1,7 +1,7 @@
 ################################################################################
 library('data.table')
 source('/home/dariusmb/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
-
+source('/home/dariusmb/GitHub/PGC/R/allClasses.R')
 basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC","output")
 # basedir <- file.path("","projects","sequence_analysis","vol3",
