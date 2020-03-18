@@ -72,6 +72,7 @@ respIn <- resp[transNumID]
 #cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
+transcriptIn <- c('ENSG00000127824.9')
 cohorts <- cohorts[1:3]
 respIn  <- 9
 tissues <- tissues[respIn]
@@ -107,16 +108,22 @@ transcript <- transcriptIn
 # grab the CPASSOC Across cohort result for the current transcript 
 # SHow contribution of COHORT to the overall CPASSOC
 
-#Across Tissue
-# print('Process CPASSOC')
-# cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
-#                     "FDR_Anno",paste0("MetaxTissue_",
-#                                       cohorts, "-FDR.Anno.txt"))
-#Across Cohort
-print('Process CPASSOC')
-cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
-                    "FDR_Anno",paste0("MetaxPheno_",
-                                      tissues,"-FDR.Anno.txt"))
+switch (CorT,
+  "T"={
+    #Across Tissue
+    print('Process CPASSOC')
+    cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
+                        "FDR_Anno",paste0("MetaxTissue_",
+                                          cohorts, "-FDR.Anno.txt"))
+  },
+  "C"={
+    #Across Cohort
+    print('Process CPASSOC')
+    cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
+                        "FDR_Anno",paste0("MetaxPheno_",
+                                          tissues,"-FDR.Anno.txt"))
+  }
+)
 
 # cpFile <- file.path("Across_Tissue_AAO","FDR",
 #                     "FDR_Anno",paste0("MetaxTissue_",
@@ -145,12 +152,23 @@ print(tissues)
 print(cohorts)
 print(transcript)
 
-#Across Tissues
-df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
-                       basedir = basedir, CorT = CorT)
-#Across Cohorts
-df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
-                       basedir = basedir, CorT = CorT)
+switch(CorT,
+       "T"={
+         df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
+                                basedir = basedir, CorT = CorT)
+       },
+       "C"={
+         df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
+                                basedir = basedir, CorT = CorT)
+       }
+)
+
+# #Across Tissues
+# df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
+#                        basedir = basedir, CorT = CorT)
+# #Across Cohorts
+# df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
+#                        basedir = basedir, CorT = CorT)
 
 df_predixcan <- rbindlist(df_predixcan)
 setnames(df_predixcan, c('Tissue','weight','se','pval'))
@@ -178,8 +196,20 @@ setnames(annoVarsnp,old = c("Start", "End"),
          new = c("BEG", "END"))
 setwd(basedir)
 
-SNPfiles <- buildSNPfiles(phe = cohorts)
-SNProws <- fread(SNPfiles)
+switch (CorT,
+  "T"={
+    SNPfiles <- buildSNPfiles(phe = cohorts)
+    SNProws <- fread(SNPfiles)
+  },
+  "C"={
+    #Across Cohorts
+    SNPfiles <- lapply(cohorts, buildSNPfiles)
+    SNProws <- lapply(SNPfiles,fread)
+    SNProws <- rbindlist(SNProws)
+  }
+)
+
+
 rm(SNPfiles)
 setnames(SNProws, old = "#CHROM", new = "Chr")
 setkey(annoVarsnp, Chr, BEG, END)
