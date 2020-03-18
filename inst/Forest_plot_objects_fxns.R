@@ -18,7 +18,7 @@ buildSNPfiles <- function(phe){
   switch(phe,
          "Marijuana_Strong_Desire"={
            snpF <- paste0("/projects/sequence_analysis/vol3/UCSFplink/epacts/", phe,
-                          "_filtered/Marajuana_Strong_Desire.all.epacts")
+                          "_filtered/MarajuanaStrDsr.all.epacts")
          },
          "MJ"={
            snpF <- paste0("/projects/sequence_analysis/vol3/UCSFplink/epacts/", phe,
