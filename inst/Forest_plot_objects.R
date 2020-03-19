@@ -267,10 +267,24 @@ df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
 # head(df_gwas)
 # head(df_gtex)
 # 2496260
-datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
-                df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
-saveRDS(datObj, file = paste(transcript, cohorts, transcriptName, 
-                             analysis,".datObj", sep = "_"))
+switch (CorT,
+  "C" ={
+    datObj <- cpRes(transcript, pred = tissues, "Across_Cohort", transcriptName, 
+                    df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
+    saveRDS(datObj, file = paste(transcript, tissues, transcriptName, 
+                                 analysis,".datObj", sep = "_"))
+  },
+  "T"={
+    datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
+                    df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
+    saveRDS(datObj, file = paste(transcript, cohorts, transcriptName, 
+                                 analysis,".datObj", sep = "_"))
+  }
+)
+# datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
+#                 df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
+# saveRDS(datObj, file = paste(transcript, cohorts, transcriptName, 
+#                              analysis,".datObj", sep = "_"))
 setwd(basedir)
 
 #print('finished')
