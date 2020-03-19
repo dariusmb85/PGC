@@ -116,6 +116,7 @@ switch (CorT,
     cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
                         "FDR_Anno",paste0("MetaxPheno_",
                                           tissues,"-FDR.Anno.txt"))
+    print(cpFile)
   }
 )
 
