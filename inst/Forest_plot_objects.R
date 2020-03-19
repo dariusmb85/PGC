@@ -56,27 +56,21 @@ transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
 
 ##Testing
-# transcriptIn <- c('ENSG00000127399.10')#,'ENSG00000084072.12','ENSG00000165502.6',
-                  # 'ENSG00000213402.2','ENSG00000197958.8','ENSG00000184983.5',
-                  # 'ENSG00000196071.3','ENSG00000237765.2','ENSG00000186230.6',
-                  # 'ENSG00000164989.11','ENSG00000183605.12','ENSG00000176390.10',
-                  # 'ENSG00000157895.7','ENSG00000186470.9','ENSG00000186468.8',
-                  # 'ENSG00000103021.5','ENSG00000084207.11')
 #transcriptIn <- c('ENSG00000127824.9')
 #translength <- length(transcriptIn)
 
-###Testing
+###Testing X Tissues
 #tissues <- tissues[1:2]
 # respIn <- 5
 #respIn <- 9
 #cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
-transcriptIn <- c('ENSG00000127824.9')
-cohorts <- cohorts[1:3]
-respIn  <- 9
-tissues <- tissues[respIn]
-CorT    <- "C"
+# transcriptIn <- c('ENSG00000127824.9')
+# cohorts <- cohorts[1:3]
+# respIn  <- 9
+# tissues <- tissues[respIn]
+# CorT    <- "C"
 
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
