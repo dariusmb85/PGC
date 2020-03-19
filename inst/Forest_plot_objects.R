@@ -66,11 +66,11 @@ respIn <- resp[transNumID]
 #cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
-# transcriptIn <- c('ENSG00000127824.9')
-# cohorts <- cohorts[1:3]
-# respIn  <- 9
-# tissues <- tissues[respIn]
-# CorT    <- "C"
+transcriptIn <- c('ENSG00000127824.9')
+cohorts <- cohorts[1:3]
+respIn  <- 9
+tissues <- tissues[respIn]
+CorT    <- "C"
 
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
@@ -116,6 +116,7 @@ switch (CorT,
     cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
                         "FDR_Anno",paste0("MetaxPheno_",
                                           tissues,"-FDR.Anno.txt"))
+    print(cpFile)
   }
 )
 
