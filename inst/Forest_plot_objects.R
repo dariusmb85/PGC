@@ -69,7 +69,7 @@ respIn <- resp[transNumID]
 # transcriptIn <- c('ENSG00000127824.9')
 # cohorts <- cohorts[1:3]
 # respIn  <- 9
-# tissues <- tissues[respIn]
+tissues <- tissues[respIn]
 # CorT    <- "C"
 
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
