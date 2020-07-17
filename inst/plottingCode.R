@@ -89,11 +89,11 @@ pltCPA <- function(x) {
   text(x = 0, y = 3, adj = c(0, 1), tg, cex = 2)
   rp <- sprintf("%s ~ %s", x@resp, x@pred)
   text(x = 0, y = 2, adj = c(0, 0.5), rp, cex = 1.5)
-  text(x = 0.5, y = 2, adj = c(1, 0.5), "sHom", cex = 1.5)
-  text(x = 0.5, y = 1, adj = c(1, 0.5), "sHet", cex = 1.5)
-  text(x = 0.65, y = 3, adj = c(0, 1), "Estimate", cex = 1.5)
-  text(x = 0.65, y = 2, adj = c(0, 0.5), signif(x@cpAssoc$sHom, 4), cex = 1.5)
-  text(x = 0.65, y = 1, adj = c(0, 0.5), signif(x@cpAssoc$sHet, 4), cex = 1.5)
+  text(x = 0.75, y = 2, adj = c(1, 0.5), "sHom", cex = 1.5)
+  text(x = 0.75, y = 1, adj = c(1, 0.5), "sHet", cex = 1.5)
+  # text(x = 0.65, y = 3, adj = c(0, 1), "Estimate", cex = 1.5)
+  # text(x = 0.65, y = 2, adj = c(0, 0.5), signif(x@cpAssoc$sHom, 4), cex = 1.5)
+  # text(x = 0.65, y = 1, adj = c(0, 0.5), signif(x@cpAssoc$sHet, 4), cex = 1.5)
   text(x = 0.8, y = 3, adj = c(0, 1), "p-value", cex = 1.5)
   shomP <- formatC(x@cpAssoc$sHomPval, format = "e", digits = 2)
   text(x = 0.8, y = 2, adj = c(0, 0.5), shomP, cex = 1.5)
@@ -102,11 +102,11 @@ pltCPA <- function(x) {
   
   with(x@stAssoc[order(Tissue)], pltStd(Tissue, pval, weight, se))
   with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, weight, se))
-  title(ylab = "GWAS Model")
+  title(ylab = "GWAS Model",cex.lab = .9)
   with(x@predWts[order(SNP, Tissue)], pltPtEst(Tissue, SNP, weight))
-  title(ylab = "PredXcan Model")
+  title(ylab = "PredXcan Model",cex.lab = .9)
   with(x@gtex[order(SNP, Tissue)], pltRange(Tissue, SNP, weight, se))
-  title(ylab = "GTEx Model")
+  title(ylab = "GTEx Model", cex.lab = .9)
   
 }
 
