@@ -50,7 +50,8 @@ CorT         <- args[5]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
-#analysis     <- eval(parse(text = args[4]))
+analysis     <- eval(parse(text = args[4]))
+CorT         <- eval(parse(text = args[5]))
 
 # print(args)
 #print(transcriptIn)
