@@ -57,7 +57,6 @@ CorT         <- eval(parse(text = args[5]))
 #print(transcriptIn)
 #print(transcriptIn[transNumID])
 
-print(transcript[transNumID])
 transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
 
