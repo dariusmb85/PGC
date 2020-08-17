@@ -3,7 +3,7 @@ library('data.table')
 source('/home/dariusmb/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
 source('/home/dariusmb/GitHub/PGC/R/allClasses.R')
 basedir <- file.path("","projects","sequence_analysis","vol5",
-                     "dariusmb","PGC","output")
+                     "dariusmb","PGC_v8","output")
 # basedir <- file.path("","projects","sequence_analysis","vol3",
 #                      "predix_Scan","GTEx-V6p_flowOver","GEMMApipe_3"
 #                      ,"output")
@@ -16,10 +16,15 @@ cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
 # if(cohorts[1] == "ADGC"){
 #   cohorts <- AlzCohortBuilder(cohorts,pheno)
 # }
-tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
-          'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
-          ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
-
+############v6p
+# tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
+#           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
+#           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
+############v8
+tissues <- c('Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
+             'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
+             'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
+             'Putambasal_ganglia')
 
 # tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
 #           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
@@ -28,7 +33,7 @@ tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
 
 
 combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
-                       "PGC","CombinedWeightsBrain.csv")
+                       "PGC_v8","CombinedWeightsBrain.csv")
 
 # combBrain <- file.path("","projects","sequence_analysis","vol3","predix_Scan",
 #                       "GTEx-V6p_flowOver","GEMMApipe_3","NewCombinedDBEdit.csv")
@@ -56,20 +61,20 @@ transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
 
 ##Testing
-#transcriptIn <- c('ENSG00000127824.9')
-#translength <- length(transcriptIn)
+transcriptIn <- c('ENSG00000141127')
+translength <- length(transcriptIn)
 
 ###Testing X Tissues
-#tissues <- tissues[1:2]
-# respIn <- 5
+tissues <- tissues[1:2]
+respIn <- 2
 #respIn <- 9
-#cohorts <- cohorts[respIn]
+cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
 # transcriptIn <- c('ENSG00000127824.9')
 # cohorts <- cohorts[1:3]
 # respIn  <- 9
-tissues <- tissues[respIn]
+# tissues <- tissues[respIn]
 # CorT    <- "C"
 
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
@@ -103,21 +108,19 @@ transcript <- transcriptIn
 # SHow contribution of COHORT to the overall CPASSOC
 
 switch (CorT,
-  "T"={
-    #Across Tissue
-    print('Process CPASSOC')
-    cpFile <- file.path("MetaAnalysis_AcrossTissue","FDR",
-                        "FDR_Anno",paste0("MetaxTissue_",
-                                          cohorts, "-FDR.Anno.txt"))
-  },
-  "C"={
-    #Across Cohort
-    print('Process CPASSOC')
-    cpFile <- file.path("MetaAnalysis_AcrossPheno","FDR",
-                        "FDR_Anno",paste0("MetaxPheno_",
-                                          tissues,"-FDR.Anno.txt"))
-    print(cpFile)
-  }
+        "T"={
+          #Across Tissue
+          print('Process xTissues CPASSOC')
+          cpFile <- file.path("MetaAnalysis_AcrossTissue",
+                              "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
+        },
+        "C"={
+          #Across Cohort
+          print('Process xPheno CPASSOC')
+          cpFile <- file.path("MetaAnalysis_AcrossPheno",
+                              "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
+          print(cpFile)
+        }
 )
 
 # cpFile <- file.path("Across_Tissue_AAO","FDR",
@@ -126,14 +129,16 @@ switch (CorT,
 
 ccData <- fread(cpFile, stringsAsFactors = FALSE, h=TRUE)
 setkey(ccData, rs)
-transcriptName <- ccData[transcript, gene_name]  
+transcriptName <- ccData[transcript, gene_name]
+transcriptName <- transcriptName[1]
 if ( is.na(transcriptName) ){
   transcriptName <- transcript
 }
-df_cpassoc <- ccData[transcript, .(gene_name, Shom, phom,
-                                   Shet, phet)] 
-setnames(df_cpassoc, c('Gene Name', 'sHom', 'sHomPval',
-                       'sHet', 'sHetPval'))
+df_cpassoc <- ccData[transcript, .(gene_name, phom,
+                                   phet)]
+df_cpassoc <- df_cpassoc[phom == min(df_cpassoc$phom)]
+setnames(df_cpassoc, c('Gene Name', 'sHomPval',
+                       'sHetPval'))
 rm(ccData)
 print(df_cpassoc)
 
@@ -212,8 +217,11 @@ setkey(SNProws, Chr, BEG, END)
 SNProws <- SNProws[annoVarsnp]
 rm(annoVarsnp)
 
+#dat[ , tissue := gsub("TW_|_0.5.db", "", basename(predDB))]
+
 fname <- combBrain
 weights <- fread(fname)
+weights$gene <- gsub("[.].*", "", weights$gene)
 
 SNPlist <- unique(weights[weights[, gene] == transcript,
                           rsid])

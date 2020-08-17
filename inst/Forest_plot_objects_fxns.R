@@ -104,6 +104,7 @@ pred_df <- function(tis, coh, basedir, CorT){
                                                       "_Univariate_Covariates_Output_", coh,
                                                       ".assoc.txt"))
            trans <- fread(filename)
+           trans$rs <- gsub("[.].*", "", trans$rs)
            setkey(trans, rs)
            row <- trans[J(transcript), .(beta, se, p_score)]
            df_row <- data.table(tis,row)
@@ -114,6 +115,7 @@ pred_df <- function(tis, coh, basedir, CorT){
                                                       "_Univariate_Covariates_Output_", coh,
                                                       ".assoc.txt"))
            trans <- fread(filename)
+           trans$rs <- gsub("[.].*", "", trans$rs)
            setkey(trans, rs)
            row <- trans[J(transcript), .(beta, se, p_score)]
            df_row <- data.table(coh,row)
@@ -127,6 +129,7 @@ pred_df <- function(tis, coh, basedir, CorT){
 pred_gtex <- function(tis, trans, dmd, snps){
   filename <- buildGTEXfilenames(tis)
   gtexdata <- fread(filename, h=TRUE, stringsAsFactors=FALSE)
+  gtexdata$gene_id <- gsub("[.].*", "", gtexdata$gene_id)
   setkey(gtexdata,gene_id)
   gtex <- gtexdata[J(trans), .(gene_id, variant_id, slope,
                                slope_se, pval_nominal)]
