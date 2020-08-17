@@ -50,25 +50,26 @@ CorT         <- args[5]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
-#analysis     <- eval(parse(text = args[4]))
+analysis     <- eval(parse(text = args[4]))
+CorT         <- eval(parse(text = args[5]))
 
 # print(args)
 #print(transcriptIn)
 #print(transcriptIn[transNumID])
 
-#print(transcript[transNumID])
+print(transcript[transNumID])
 transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
 
 ##Testing
-transcriptIn <- c('ENSG00000141127')
-translength <- length(transcriptIn)
+#transcriptIn <- c('ENSG00000141127')
+#translength <- length(transcriptIn)
 
 ###Testing X Tissues
-tissues <- tissues[1:2]
-respIn <- 2
+#tissues <- tissues[1:2]
+#respIn <- 2
 #respIn <- 9
-cohorts <- cohorts[respIn]
+#cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
 # transcriptIn <- c('ENSG00000127824.9')
