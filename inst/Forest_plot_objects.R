@@ -167,12 +167,6 @@ switch(CorT,
        }
 )
 
-# #Across Tissues
-# df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
-#                        basedir = basedir, CorT = CorT)
-# #Across Cohorts
-# df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
-#                        basedir = basedir, CorT = CorT)
 
 df_predixcan <- rbindlist(df_predixcan)
 setnames(df_predixcan, c('Tissue','weight','se','pval'))
@@ -220,8 +214,6 @@ setkey(annoVarsnp, Chr, BEG, END)
 setkey(SNProws, Chr, BEG, END)
 SNProws <- SNProws[annoVarsnp]
 rm(annoVarsnp)
-
-#dat[ , tissue := gsub("TW_|_0.5.db", "", basename(predDB))]
 
 fname <- combBrain
 weights <- fread(fname)
@@ -275,11 +267,6 @@ setkey(df_PrdxWts, Tissue, SNP)
 
 df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
 
-# df_cpassoc
-# df_predixcan
-# head(df_gwas)
-# head(df_gtex)
-# 2496260
 switch (CorT,
   "C" ={
     datObj <- cpRes(transcript, pred = tissues, "Across_Cohort", transcriptName, 
@@ -294,10 +281,7 @@ switch (CorT,
                                  analysis,".datObj", sep = "_"))
   }
 )
-# datObj <- cpRes(transcript, cohorts, "Across_Tissue", transcriptName, 
-#                 df_cpassoc, df_predixcan, df_gwas, df_gtex, df_PrdxWts)
-# saveRDS(datObj, file = paste(transcript, cohorts, transcriptName, 
-#                              analysis,".datObj", sep = "_"))
+
 setwd(basedir)
 
 #print('finished')
