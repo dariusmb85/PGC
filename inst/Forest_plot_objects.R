@@ -57,9 +57,6 @@ CorT         <- eval(parse(text = args[5]))
 #print(transcriptIn)
 #print(transcriptIn[transNumID])
 
-transcriptIn <- transcriptIn[transNumID]
-respIn <- resp[transNumID]
-
 ##Testing
 #transcriptIn <- c('ENSG00000141127')
 #translength <- length(transcriptIn)
@@ -101,6 +98,9 @@ df_PrdxWts <- data.table()
 
 print(paste('Processing next cohort', cohorts, sep="="))
 
+transcriptIn <- transcriptIn[transNumID]
+respIn <- resp[transNumID]
+
 transcript <- transcriptIn
 
 #TEST COMMIT
@@ -113,12 +113,14 @@ switch (CorT,
         "T"={
           #Across Tissue
           print('Process xTissues CPASSOC')
+          cohorts <- cohorts[respIn]
           cpFile <- file.path("MetaAnalysis_AcrossTissue",
                               "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
         },
         "C"={
           #Across Cohort
           print('Process xPheno CPASSOC')
+          tissues <- tissues[respIn]
           cpFile <- file.path("MetaAnalysis_AcrossPheno",
                               "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
           print(cpFile)
