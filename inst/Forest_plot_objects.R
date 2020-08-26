@@ -264,6 +264,7 @@ setnames(df_gtex, c("Tissue", 'SNP', 'weight',
 setnames(df_PrdxWts, c("Tissue","SNP","weight"))
 setkey(df_gtex, Tissue, SNP)
 setkey(df_PrdxWts, Tissue, SNP)
+df_PrdxWts$Tissue <- gsub("^Brain_*", "", df_PrdxWts$Tissue)
 
 df_PrdxWts <- df_PrdxWts[df_gtex, .(Tissue, SNP, weight)]
 
