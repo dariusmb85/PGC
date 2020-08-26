@@ -90,6 +90,9 @@ buildGTEXfilenames <- function(tissue) {
   if(tiss == "Frontal_Cortex"){
     tiss <- "Frontal_Cortex_BA9"
   }
+  if(tiss == "Putambasal_ganglia"){  #
+    tiss <- "Putamen_basal_ganglia"
+  }
   
   basedir <- '/projects/sequence_analysis/vol3/predix_Scan/GTEx-V6p_flowOver/gtex_data'
   filename <- paste('Brain', paste(tiss, 'allpairs.txt', sep= '.'), sep= "_")
