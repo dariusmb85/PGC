@@ -63,7 +63,7 @@ pltStd <- function(lbl, pval, beta, se) {
   plot.new()
   plot.window(ylim = c(0, nLbl), xlim = range(c(0, lVal, hVal), na.rm = TRUE))
   axis(side = 1)
-  title(xlab = "Standard Association Model (beta values)")
+  title(xlab = "Standard Association Model (beta)")
   segments(y0 = lblInt, y1 = lblInt, x0 = lVal, x1 = hVal, col = col)
   abline(v = 0, lty = "dashed")
   text(x = line2user(1, 2), 
