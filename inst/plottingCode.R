@@ -42,7 +42,7 @@ pltPtEst <- function(grp, snp, beta) {
   # plot.window(xlim = c(0, (nGrp + 1)*nSnp), ylim = range(c(0, lVal, hVal)))
   plot.window(xlim = c(0, nSnp), ylim = range(c(0, beta), na.rm = TRUE))
   axis(side = 2)
-  points(x = x, y = beta, col = col, pch = 16, cex = 0.5)
+  points(x = x, y = beta, col = col, pch = 16, cex = 0.9)
   abline(h = 0, lty = "dashed")
 }
 
