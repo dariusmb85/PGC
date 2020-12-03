@@ -109,7 +109,7 @@ pltCPA <- function(x) {
   with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, weight, se))
   title(ylab = "GWAS Model",cex.lab = .9)
   with(x@predWts[order(SNP, Tissue)], pltPtEst(Tissue, SNP, weight))
-  title(ylab = "PredXcan Model",cex.lab = .9)
+  title(ylab = "PrediXcan Model",cex.lab = .9)
   with(x@gtex[order(SNP, Tissue)], pltRange(Tissue, SNP, weight, se))
   title(ylab = "GTEx Model", cex.lab = .9)
   
