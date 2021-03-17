@@ -13,11 +13,15 @@ pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
   
   if (!dir.exists(downloadDest)) {
     stop("The given download destination does not exist")
-  }
-  predUrl <- "https://s3.amazonaws.com/predictdb2/deprecated"
-  f <- "GTEx-V6p-HapMap-2016-09-08.tar.gz"
+  }#https://zenodo.org/record/3519321/files/?download=1
+  #predUrl <- "https://s3.amazonaws.com/predictdb2/deprecated"
+  predUrl <- "https://zenodo.org/record/3519321/files"
+  #f <- "GTEx-V6p-HapMap-2016-09-08.tar.gz"
+  f <- "gtex_v8_expression_elastic_net_snp_smultixcan_covariance.txt.gz"
+  f <- "elastic_net_eqtl.tar"
   tf <- file.path(downloadDest, f)
-  download.file(paste(predUrl, f, sep = "/"), destfile = tf)
+  ext<- "download=1"
+  download.file(paste(paste(predUrl, f, sep = "/"),ext, sep = "?"), destfile = tf)
   untar(tf)
   if (rmTar){
     file.remove(tf)
@@ -43,7 +47,7 @@ pgcCombinePredxFiles <- function(predDir, SubsetByTissue = FALSE) {
   if (SubsetByTissue == TRUE){
     tl <- pgcListTissues(dat)
     print(tl)
-    print("Type Tissue name to subset new weights file\n")
+    print("Type Tissue name to subset new weights file")
     tiss <- readline("ex.'Brain_Cortex' for Brain Cortex or 'Brain' for every Brain tissue:")
     dat <- pgcSubsetTissues(tiss)
     saveRDS(dat,"combinedWeightFiles.rds")
@@ -60,7 +64,7 @@ pgcCombinePredxFiles <- function(predDir, SubsetByTissue = FALSE) {
 pgcListTissues <- function(combWts){
   
   readline("Here is s alist of tissues: Press any key")
-  tissList <- unique(as.data.table(combWts)[[6]])
+  tissList <- unique(as.data.table(combWts)[[7]])
   tissList
   
 }
