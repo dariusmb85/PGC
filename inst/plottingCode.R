@@ -56,6 +56,7 @@ pltStd <- function(lbl, pval, beta, se) {
   col  <- rep("gray", nLbl)
   col[high] <- "#D3560E"
   col[low]  <- "#521168"
+  betas <- beta
   
   lblInt <- as.integer(as.factor(lbl))
   
@@ -65,6 +66,7 @@ pltStd <- function(lbl, pval, beta, se) {
   axis(side = 1)
   title(xlab = "Standard Association Model (beta values)")
   segments(y0 = lblInt, y1 = lblInt, x0 = lVal, x1 = hVal, col = col)
+  points(x = betas, y = lblInt, col = col, bg = col, pch = 23)
   abline(v = 0, lty = "dashed")
   text(x = line2user(1, 2), 
        y = lblInt, 
