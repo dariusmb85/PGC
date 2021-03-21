@@ -48,11 +48,16 @@ buildSNPfiles <- function(phe){
 # missing rsIDs.
 # Independant of the tissues
 buildVariantToRSIDmap <- function() {
-  filepath <- file.path("","projects","sequence_analysis","vol3","predix_Scan",
-                        "GTEx-V6p_flowOver","gtex_data","")
+  # filepath <- file.path("","projects","sequence_analysis","vol3","predix_Scan",
+  #                       "GTEx-V6p_flowOver","gtex_data","")
+  filepath <- file.path("","projects","sequence_analysis","vol5","dariusmb",
+                        "gtex_data","")
+  # filename <- paste(filepath,
+  #                   "GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_635Ind_PASS_AB02_GQ20_HETX_MISS15_PLINKQC.lookup_table.txt",
+  #                   sep = "")
   filename <- paste(filepath,
-                    "GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_635Ind_PASS_AB02_GQ20_HETX_MISS15_PLINKQC.lookup_table.txt",
-                    sep="")
+                    "GTEx_Analysis_2017-06-05_v8_WholeGenomeSeq_838Indiv_Analysis_Freeze.lookup_table.txt",
+                    sep = "")
   data <- fread(filename, stringsAsFactors = FALSE, h = TRUE)
   setkey(data, rs_id_dbSNP147_GRCh37p13)
   mapdata <- data[!("."), .(variant_id, rs_id_dbSNP147_GRCh37p13)] 
