@@ -9,7 +9,7 @@ NULL
 #' @describeIn predXUtils Download predXcan to the given directory
 #' @export
 
-pgcDownloadPrediXcan <- function(downloadDest = "PrediXcan", rmTar = TRUE) {
+pgcDownloadPrediXcan <- function(downloadDest, rmTar = TRUE) {
   
   if (!dir.exists(downloadDest)) {
     stop("The given download destination does not exist")
