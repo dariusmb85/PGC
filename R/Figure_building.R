@@ -6,8 +6,8 @@ library(xtable)
 ###########Console Script#####################
 list_files <- list.files(pattern = "*Anno.txt")
 myDat <- fread(list_files)
-myDat <- myDat[order(Bonfphom)]
-myDat2 <- myDat[Bonfphom < 0.05]
+myDat <- myDat[order(Bonfphet)]
+myDat2 <- myDat[Bonfphet < 0.05]
 myDat2$Tissue <- gsub("^_","",myDat2$Tissue)
 myDat2$rs <- NULL
 myDat2$bp <- NULL
