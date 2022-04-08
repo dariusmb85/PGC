@@ -2,41 +2,42 @@
 library('data.table')
 source('/home/dariusmb/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
 source('/home/dariusmb/GitHub/PGC/R/allClasses.R')
+# basedir <- file.path("","projects","sequence_analysis","vol5",
+#                      "dariusmb","PGC_v8","output")
 basedir <- file.path("","projects","sequence_analysis","vol5",
-                     "dariusmb","PGC_v8","output")
-# basedir <- file.path("","projects","sequence_analysis","vol3",
-#                      "predix_Scan","GTEx-V6p_flowOver","GEMMApipe_3"
-#                      ,"output")
+                     "dariusmb","PGC_AD","output")
 
-cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
-#cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD","ROSMAP","TARCC","TGEN2","WASHU")
+#cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
+cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD","ROSMAP","TARCC","TGEN2","WASHU")
 
-#pheno <- c("AAO","LOAD")
+pheno <- c("AAO","LOAD")
 
-# if(cohorts[1] == "ADGC"){
-#   cohorts <- AlzCohortBuilder(cohorts,pheno)
-# }
+if(cohorts[1] == "ADGC"){
+  cohorts <- AlzCohortBuilder(cohorts,pheno)
+}
 ############v6p
 # tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
 #           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
 #           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
 ############v8
-tissues <- c('Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
-             'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
-             'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
-             'Putambasal_ganglia')
+# tissues <- c('Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
+#              'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
+#              'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
+#              'Putambasal_ganglia')
 
-# tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
-#           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
-#           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia',
-#           'Substantia_nigra')
+############v8_All_tissues
+tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
+          'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
+          ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia',
+          'Substantia_nigra')
 
+# Addiction Analysis
+# combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
+#                        "PGC_v8","CombinedWeightsBrain.csv")
 
+# Alz Analysis
 combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
-                       "PGC_v8","CombinedWeightsBrain.csv")
-
-# combBrain <- file.path("","projects","sequence_analysis","vol3","predix_Scan",
-#                       "GTEx-V6p_flowOver","GEMMApipe_3","NewCombinedDBEdit.csv")
+                      "PGC_AD","CombinedWeightsBrain.csv")
 
 ################################################################################
 
@@ -58,19 +59,18 @@ CorT         <- eval(parse(text = args[5]))
 #print(transcriptIn[transNumID])
 
 ##Testing
-#transcriptIn <- c('ENSG00000141127')
-#translength <- length(transcriptIn)
+# transcriptIn <- c('ENSG00000159905')
+# translength <- length(transcriptIn)
 
 ###Testing X Tissues
-#tissues <- tissues[1:2]
-#respIn <- 2
-#respIn <- 9
-#cohorts <- cohorts[respIn]
+# tissues <- tissues[5:6]
+# respIn <- 2
+# respIn <- 9
+# cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
-# transcriptIn <- c('ENSG00000127824.9')
 # cohorts <- cohorts[1:3]
-# respIn  <- 9
+# respIn  <- 4
 # tissues <- tissues[respIn]
 # CorT    <- "C"
 
@@ -114,15 +114,20 @@ switch (CorT,
           #Across Tissue
           print('Process xTissues CPASSOC')
           cohorts <- cohorts[respIn]
+          # cpFile <- file.path("MetaAnalysis_AcrossTissue",
+          #                     "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
           cpFile <- file.path("MetaAnalysis_AcrossTissue",
-                              "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
+                              "AAO_results",paste0("MetaxTissue-FDR.Anno.txt"))
         },
         "C"={
           #Across Cohort
           print('Process xPheno CPASSOC')
           tissues <- tissues[respIn]
+          # Addiction below ############
+          # cpFile <- file.path("MetaAnalysis_AcrossPheno",
+          #                     "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
           cpFile <- file.path("MetaAnalysis_AcrossPheno",
-                              "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
+                              "AAO_results",paste0("MetaxPheno-FDR.Anno.txt"))
           print(cpFile)
         }
 )
@@ -169,7 +174,7 @@ switch(CorT,
 
 
 df_predixcan <- rbindlist(df_predixcan)
-setnames(df_predixcan, c('Tissue','weight','se','pval'))
+#setnames(df_predixcan, c('Tissue','weight','se','pval'))
 print(df_predixcan)
 
 # For each SNP of this transcript. Grab all the known 
@@ -182,31 +187,40 @@ print(df_predixcan)
 # the Phenotype_SNPs GWAS data and build a data frame
 # Keep the object SNPlist for the GTEX data object as well
 
-setwd(file.path("","projects","sequence_analysis","vol3",
-      "UCSFplink","avsnp150"))
-file_list <-list.files(pattern= "*hg19_multianno.txt$",
-                       full.names = TRUE)
-files <- lapply(file_list, function(x) fread(x, header = TRUE, 
+# Chr	Start	End	Ref	Alt	avsnp150  ##avnsp150 original header
+# setwd(file.path("","projects","sequence_analysis","vol3",
+#       "UCSFplink","avsnp150"))
+#Alz
+setwd(file.path("","home","dariusmb","GWAS_plink"))
+
+# file_list <-list.files(pattern= "*hg19_multianno.txt$",
+#                        full.names = TRUE)
+
+file_list <- list.files(pattern= "*cohort_predict.bim$", 
+                        full.names = TRUE, recursive = TRUE)
+files <- lapply(file_list, function(x) fread(x, header = FALSE, 
                                              data.table=TRUE))
 annoVarsnp <- rbindlist(files)
 rm(files)
-setnames(annoVarsnp,old = c("Start", "End"), 
-         new = c("BEG", "END"))
+# setnames(annoVarsnp,old = c("Start", "End"), 
+#          new = c("BEG", "END"))
+# Below for Alz
+setnames(annoVarsnp,c('Chr','avsnp150','morgans','BEG','Ref','Alt'))
 setwd(basedir)
 
-switch (CorT,
-  "T"={
-    SNPfiles <- buildSNPfiles(phe = cohorts)
-    SNProws <- fread(SNPfiles)
-  },
-  "C"={
-    #Across Cohorts
-    SNPfiles <- lapply(cohorts, buildSNPfiles)
-    SNProws <- lapply(SNPfiles,fread)
-    SNProws <- rbindlist(SNProws)
-  }
-)
-
+# switch (CorT,
+#   "T"={
+#     SNPfiles <- buildSNPfiles(phe = cohorts)
+#     SNProws <- fread(SNPfiles)
+#   },
+#   "C"={
+#     #Across Cohorts
+#     SNPfiles <- lapply(cohorts, buildSNPfiles)
+#     SNProws <- lapply(SNPfiles,fread)
+#     SNProws <- rbindlist(SNProws)
+#   }
+# )
+SNProws <- annoVarsnp
 
 rm(SNPfiles)
 setnames(SNProws, old = "#CHROM", new = "Chr")
