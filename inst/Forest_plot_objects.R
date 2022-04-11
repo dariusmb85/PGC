@@ -141,6 +141,7 @@ print("Process Tissues")
 print(tissues)
 print(cohorts)
 print(transcript)
+print(basedir)
 
 switch(CorT,
        "T"={
