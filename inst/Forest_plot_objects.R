@@ -1,14 +1,15 @@
 ################################################################################
 library('data.table')
-source('/home/dariusmb/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
-source('/home/dariusmb/GitHub/PGC/R/allClasses.R')
+source('~/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
+source('~/GitHub/PGC/R/allClasses.R')
 # basedir <- file.path("","projects","sequence_analysis","vol5",
 #                      "dariusmb","PGC_v8","output")
 basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC_AD","output")
 
-#cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
-cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD","ROSMAP","TARCC","TGEN2","WASHU")
+# cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
+cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD",
+             "ROSMAP","TARCC","TGEN2","WASHU")
 
 pheno <- c("AAO","LOAD")
 
@@ -48,18 +49,21 @@ transNumID   <- args[2]
 resp         <- args[3]
 analysis     <- args[4]
 CorT         <- args[5]
+trait        <- args[6]
+AlzPheno     <- args[7]
 transcriptIn <- eval(parse(text = args[1]))
 transNumID   <- eval(parse(text = args[2]))
 resp         <- eval(parse(text = args[3]))
 analysis     <- eval(parse(text = args[4]))
 CorT         <- eval(parse(text = args[5]))
-
+trait        <- eval(parse(text = args[6]))
+AlzPheno     <- eval(parse(text = args[7]))
 # print(args)
 #print(transcriptIn)
 #print(transcriptIn[transNumID])
 
 ##Testing
-# transcriptIn <- c('ENSG00000159905')
+# transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
 # translength <- length(transcriptIn)
 
 ###Testing X Tissues
@@ -69,11 +73,14 @@ CorT         <- eval(parse(text = args[5]))
 # cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
+# transNumID<- 1
+# transcript <- transcriptIn[transNumID]
 # cohorts <- cohorts[1:3]
-# respIn  <- 4
+# respIn  <- 7
 # tissues <- tissues[respIn]
 # CorT    <- "C"
-
+# trait   <- "Alz"
+# AlzPheno<- "LOAD"
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
 # expression beta se
@@ -108,33 +115,7 @@ transcript <- transcriptIn
 # First
 # grab the CPASSOC Across cohort result for the current transcript 
 # SHow contribution of COHORT to the overall CPASSOC
-
-switch (CorT,
-        "T"={
-          #Across Tissue
-          print('Process xTissues CPASSOC')
-          cohorts <- cohorts[respIn]
-          # cpFile <- file.path("MetaAnalysis_AcrossTissue",
-          #                     "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
-          cpFile <- file.path("MetaAnalysis_AcrossTissue",
-                              "AAO_results",paste0("MetaxTissue-FDR.Anno.txt"))
-        },
-        "C"={
-          #Across Cohort
-          print('Process xPheno CPASSOC')
-          tissues <- tissues[respIn]
-          # Addiction below ############
-          # cpFile <- file.path("MetaAnalysis_AcrossPheno",
-          #                     "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
-          cpFile <- file.path("MetaAnalysis_AcrossPheno",
-                              "AAO_results",paste0("MetaxPheno-FDR.Anno.txt"))
-          print(cpFile)
-        }
-)
-
-# cpFile <- file.path("Across_Tissue_AAO","FDR",
-#                     "FDR_Anno",paste0("MetaxTissue_",
-#                                       cohorts, "-FDR.Anno.txt"))
+cpFile <- get_Cpassoc_Data(trait = trait, cort = CorT, pheno = AlzPheno)
 
 ccData <- fread(cpFile, stringsAsFactors = FALSE, h=TRUE)
 setkey(ccData, rs)
@@ -188,24 +169,7 @@ print(df_predixcan)
 # Keep the object SNPlist for the GTEX data object as well
 
 # Chr	Start	End	Ref	Alt	avsnp150  ##avnsp150 original header
-# setwd(file.path("","projects","sequence_analysis","vol3",
-#       "UCSFplink","avsnp150"))
-#Alz
-setwd(file.path("","home","dariusmb","GWAS_plink"))
-
-# file_list <-list.files(pattern= "*hg19_multianno.txt$",
-#                        full.names = TRUE)
-
-file_list <- list.files(pattern= "*cohort_predict.bim$", 
-                        full.names = TRUE, recursive = TRUE)
-files <- lapply(file_list, function(x) fread(x, header = FALSE, 
-                                             data.table=TRUE))
-annoVarsnp <- rbindlist(files)
-rm(files)
-# setnames(annoVarsnp,old = c("Start", "End"), 
-#          new = c("BEG", "END"))
-# Below for Alz
-setnames(annoVarsnp,c('Chr','avsnp150','morgans','BEG','Ref','Alt'))
+annoVarsnp <- annoVarFile(trait)
 setwd(basedir)
 
 # switch (CorT,
@@ -222,12 +186,12 @@ setwd(basedir)
 # )
 SNProws <- annoVarsnp
 
-rm(SNPfiles)
-setnames(SNProws, old = "#CHROM", new = "Chr")
-setkey(annoVarsnp, Chr, BEG, END)
-setkey(SNProws, Chr, BEG, END)
-SNProws <- SNProws[annoVarsnp]
-rm(annoVarsnp)
+# rm(SNPfiles)
+# setnames(SNProws, old = "#CHROM", new = "Chr")
+# setkey(annoVarsnp, Chr, BEG, END)
+# setkey(SNProws, Chr, BEG, END)
+# SNProws <- SNProws[annoVarsnp]
+# rm(annoVarsnp)
 
 fname <- combBrain
 weights <- fread(fname)
@@ -252,7 +216,7 @@ setnames(df_gwas, c('SNP', 'weight', 'se',
                     'pval', 'predictor'))
 rownames(df_gwas) <- NULL
 print(head(df_gwas))
-
+print(head(df_PrdxWts))
 # Fourth
 # For the items in SNPlist, for each tissue, grab the 
 # GTEX raw beta,se terms

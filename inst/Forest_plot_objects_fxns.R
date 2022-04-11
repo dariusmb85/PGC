@@ -165,3 +165,91 @@ AlzCohortBuilder <- function(coh,phe){
   return (newCoh)
 }
 ################################################################################
+get_Cpassoc_Data <- function(trait, cort, pheno){
+  if(trait == "Alz"){
+    if(pheno == "LOAD"){
+      switch (CorT,
+              "T"={
+                #Across Tissue
+                print('Process xTissues CPASSOC')
+                cohorts <- cohorts[respIn]
+                cpFile <- file.path("MetaAnalysis_AcrossTissue",
+                                    "LOAD_results",paste0("MetaxTissue-FDR.Anno.txt"))
+              },
+              "C"={
+                #Across Cohort
+                print('Process xPheno CPASSOC')
+                tissues <- tissues[respIn]
+                cpFile <- file.path("MetaAnalysis_AcrossPheno",
+                                    "LOAD_results",paste0("MetaxPheno-FDR.Anno.txt"))
+              })
+    }else if(pheno == "AAO"){
+      switch (CorT,
+              "T"={
+                #Across Tissue
+                print('Process xTissues CPASSOC')
+                cohorts <- cohorts[respIn]
+                cpFile <- file.path("MetaAnalysis_AcrossTissue",
+                                    "AAO_results",paste0("MetaxTissue-FDR.Anno.txt"))
+              },
+              "C"={
+                #Across Cohort
+                print('Process xPheno CPASSOC')
+                tissues <- tissues[respIn]
+                cpFile <- file.path("MetaAnalysis_AcrossPheno",
+                                    "AAO_results",paste0("MetaxPheno-FDR.Anno.txt"))
+              })
+    }
+  }else if(trait == "Addict"){
+    switch (CorT,
+            "T"={
+              #Across Tissue
+              print('Process xTissues CPASSOC')
+              cohorts <- cohorts[respIn]
+              cpFile <- file.path("MetaAnalysis_AcrossTissue",                      ### Addiction Analysis
+                                  "FDR_Anno",paste0("MetaxTissue-FDR.Anno.txt"))
+            },
+            "C"={
+              #Across Cohort
+              print('Process xPheno CPASSOC')
+              tissues <- tissues[respIn]
+              cpFile <- file.path("MetaAnalysis_AcrossPheno",                        ### Addiction Analysis
+                                  "FDR_Anno",paste0("MetaxPheno-FDR.Anno.txt"))
+            }
+    )
+  }
+  return(cpFile)
+}
+########################################################
+annoVarFile <- function(trait) {
+  switch (trait,
+    "Addict" = {
+      setwd(file.path("","projects","sequence_analysis","vol3",
+                      "UCSFplink","avsnp150"))
+      file_list <-list.files(pattern= "*hg19_multianno.txt$",
+                             full.names = TRUE)
+      files <- lapply(file_list, function(x) fread(x, header = FALSE, 
+                                                   data.table=TRUE))
+      files <- rbindlist(files)
+      setnames(files,old = c("Start", "End"),
+               new = c("BEG", "END"))
+    },
+    "Alz"={
+      #Alz
+      setwd(file.path("","home","dariusmb","GWAS_plink"))
+      file_list <- list.files(pattern= "*cohort_predict.bim$", 
+                              full.names = TRUE, recursive = TRUE)
+      files <- lapply(file_list, function(x) fread(x, header = FALSE, 
+                                                   data.table=TRUE))
+      files <- rbindlist(files)
+      setnames(files,c('Chr','avsnp150','morgans',
+                            'BEG','Ref','Alt'))
+      files <- files[avsnp150 %like% "rs"]
+    }
+  )
+  return(files)
+}
+
+
+
+
