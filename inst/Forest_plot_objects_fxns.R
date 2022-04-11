@@ -111,6 +111,7 @@ pred_df <- function(tis, coh, basedir, CorT){
            filename <- file.path(basedir, coh, paste0(tis,
                                                       "_Univariate_Covariates_Output_", coh,
                                                       ".assoc.txt"))
+           print(filename)
            trans <- fread(filename)
            trans$rs <- gsub("[.].*", "", trans$rs)
            setkey(trans, rs)
