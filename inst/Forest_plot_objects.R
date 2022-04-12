@@ -212,12 +212,12 @@ rm(weights)
 print('Process SNP data')
 # df_gwas <- rowbetas[, .(avsnp150, BETA,
 #                         SEBETA, PVALUE)]
-rm(rowbetas)
+# rm(rowbetas)
 pred <- cohorts
 # df_gwas <- cbind(df_gwas, pred)
-setnames(df_gwas, c('SNP', 'weight', 'se',
-                    'pval', 'predictor'))
-rownames(df_gwas) <- NULL
+# setnames(df_gwas, c('SNP', 'weight', 'se',
+                    # 'pval', 'predictor'))
+# rownames(df_gwas) <- NULL
 print(head(df_gwas))
 print(head(df_PrdxWts))
 # Fourth
