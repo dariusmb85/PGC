@@ -203,18 +203,18 @@ weights$gene <- gsub("[.].*", "", weights$gene)
 SNPlist <- unique(weights[weights[, gene] == transcript,
                           rsid])
 setkey(SNProws, avsnp150)
-rowbetas <- SNProws[J(SNPlist), 
-                    .(avsnp150, BETA, SEBETA , PVALUE)]
+# rowbetas <- SNProws[J(SNPlist), 
+#                     .(avsnp150, BETA, SEBETA , PVALUE)]
 df_PrdxWts <- weights[weights[,gene] == transcript,
                       .(tissue,rsid, weight)]
 rm(SNProws)
 rm(weights)
 print('Process SNP data')
-df_gwas <- rowbetas[, .(avsnp150, BETA,
-                        SEBETA, PVALUE)]
+# df_gwas <- rowbetas[, .(avsnp150, BETA,
+#                         SEBETA, PVALUE)]
 rm(rowbetas)
 pred <- cohorts
-df_gwas <- cbind(df_gwas, pred)
+# df_gwas <- cbind(df_gwas, pred)
 setnames(df_gwas, c('SNP', 'weight', 'se',
                     'pval', 'predictor'))
 rownames(df_gwas) <- NULL
