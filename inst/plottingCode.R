@@ -78,11 +78,11 @@ pltStd <- function(lbl, pval, beta, se) {
        labels = lbl,
        adj = c(1, 0.5),
        xpd = NA)
-  # text(x = line2user(5, 2),
-  #      y = lblInt,
-  #      labels = formatC(beta, format = "g", digits = 3),
-  #      adj = c(1, 0.5),
-  #      xpd = NA)
+  text(x = line2user(5, 2),
+       y = lblInt,
+       labels = formatC(beta, format = "g", digits = 3),
+       adj = c(1, 0.5),
+       xpd = NA)
   
 }
 
@@ -108,8 +108,8 @@ pltCPA <- function(x) {
   text(x = 0.8, y = 1, adj = c(0, 0.5), shetP, cex = 1.5)
   
   with(x@stAssoc[order(Tissue)], pltStd(Tissue, pval, weight, se))
-  with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, weight, se))
-  title(ylab = "GWAS Model",cex.lab = .9)
+  # with(x@gwas[order(SNP, predictor)], pltRange(predictor, SNP, weight, se))
+  # title(ylab = "GWAS Model",cex.lab = .9)
   with(x@predWts[order(SNP, Tissue)], pltPtEst(Tissue, SNP, weight))
   title(ylab = "PrediXcan Model",cex.lab = .9)
   with(x@gtex[order(SNP, Tissue)], pltRange(Tissue, SNP, weight, se))

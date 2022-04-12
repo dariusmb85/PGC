@@ -63,7 +63,7 @@ print(args)
 #print(transcriptIn[transNumID])
 
 ##Testing
-transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
+# transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
 # translength <- length(transcriptIn)
 
 ###Testing X Tissues
