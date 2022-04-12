@@ -131,8 +131,8 @@ pred_df <- function(tis, coh, basedir, CorT){
            df_row <- data.table(coh,row)
            setnames(df_row,c('Tissue', 'weight', 'se', 'pval')) 
          })
-  # df_row[]
-  return(filename)
+  df_row[]
+  # return(filename)
 }
 
 ################################################################################
