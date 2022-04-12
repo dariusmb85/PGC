@@ -128,7 +128,7 @@ pred_df <- function(tis, coh, basedir, CorT){
            setkey(trans, rs)
            row <- trans[J(transcript), .(beta, se, p_score)]
            df_row <- data.table(coh,row)
-           setnames(df_row,c('Cohort', 'weight', 'se', 'pval')) 
+           setnames(df_row,c('Tissue', 'weight', 'se', 'pval')) 
          })
   df_row[]
 }

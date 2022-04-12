@@ -63,7 +63,7 @@ AlzPheno     <- eval(parse(text = args[7]))
 #print(transcriptIn[transNumID])
 
 ##Testing
-# transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
+transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
 # translength <- length(transcriptIn)
 
 ###Testing X Tissues
@@ -73,14 +73,14 @@ AlzPheno     <- eval(parse(text = args[7]))
 # cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
-# transNumID<- 1
-# transcript <- transcriptIn[transNumID]
-# cohorts <- cohorts[1:3]
-# respIn  <- 7
-# tissues <- tissues[respIn]
-# CorT    <- "C"
-# trait   <- "Alz"
-# AlzPheno<- "LOAD"
+transNumID<- 1
+transcript <- transcriptIn[transNumID]
+cohorts <- cohorts[1:3]
+respIn  <- 7
+tissues <- tissues[respIn]
+CorT    <- "C"
+trait   <- "Alz"
+AlzPheno<- "LOAD"
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
 # expression beta se
