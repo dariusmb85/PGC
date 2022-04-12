@@ -145,10 +145,12 @@ print(basedir)
 
 switch(CorT,
        "T"={
+         cohorts <- cohorts[respIn]
          df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
                                 basedir = basedir, CorT = CorT)
        },
        "C"={
+         tissues <- tissues[respIn]
          df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
                                 basedir = basedir, CorT = CorT)
        }
