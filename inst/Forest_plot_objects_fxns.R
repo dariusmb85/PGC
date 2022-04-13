@@ -59,8 +59,8 @@ buildVariantToRSIDmap <- function() {
                     "GTEx_Analysis_2017-06-05_v8_WholeGenomeSeq_838Indiv_Analysis_Freeze.lookup_table.txt",
                     sep = "")
   data <- fread(filename, stringsAsFactors = FALSE, h = TRUE)
-  setkey(data, rs_id_dbSNP147_GRCh37p13)
-  mapdata <- data[!("."), .(variant_id, rs_id_dbSNP147_GRCh37p13)] 
+  setkey(data, rs_id_dbSNP151_GRCh38p7)
+  mapdata <- data[!("."), .(variant_id, rs_id_dbSNP151_GRCh38p7)] 
   #mapdata[mapdata == "."] <- NA
   #mapdata <- na.omit(mapdata)
   # Takes a long time to update rownames(densemapdata) = densemapdata[,1]
@@ -70,7 +70,7 @@ buildVariantToRSIDmap <- function() {
 convertVariantToRSID <- function(isnp, densemapdata) {
   #variant <- mapdata[mapdata$variant_id==isnp, 1][1]
   setkey(densemapdata, variant_id)
-  rsid <- as.data.table(densemapdata[J(isnp), rs_id_dbSNP147_GRCh37p13])
+  rsid <- as.data.table(densemapdata[J(isnp), rs_id_dbSNP151_GRCh38p7])
   # if (rsid == "character(0)"){
   #   rsid <- ""
   # }
@@ -80,7 +80,7 @@ convertVariantToRSID <- function(isnp, densemapdata) {
 ################################################################################
 convertRSIDToVariant <- function(ivar, densemapdata) {
   #variant <- mapdata[mapdata$variant_id==isnp, 1][1]
-  setkey(densemapdata, rs_id_dbSNP147_GRCh37p13)
+  setkey(densemapdata, rs_id_dbSNP151_GRCh38p7)
   var <- toString(densemapdata[J(ivar), variant_id])
   if (var == "character(0)"){
     var <- ""
@@ -99,8 +99,8 @@ buildGTEXfilenames <- function(tissue) {
     tiss <- "Putamen_basal_ganglia"
   }
   
-  basedir <- '/projects/sequence_analysis/vol3/predix_Scan/GTEx-V6p_flowOver/gtex_data'
-  filename <- paste('Brain', paste(tiss, 'allpairs.txt', sep= '.'), sep= "_")
+  basedir <- '/projects/sequence_analysis/vol5/dariusmb/gtex_data/GTEx_Analysis_v8_eQTL'
+  filename <- paste('Brain', paste(tiss,'v8.signif_variant_gene_pairs.txt.gz', sep= '.'), sep= "_")
   return (paste(basedir, filename, sep= '/'))
 }
 ################################################################################
@@ -148,9 +148,9 @@ pred_gtex <- function(tis, trans, dmd, snps){
   rm(gtexdata)
   setkey(gtex, variant_id)
   setkey(dmd, variant_id)
-  gtexNew <- dmd[gtex, .(tis, rs_id_dbSNP147_GRCh37p13,
+  gtexNew <- dmd[gtex, .(tis, rs_id_dbSNP151_GRCh38p7,
                          slope, slope_se, pval_nominal)]
-  setkey(gtexNew, rs_id_dbSNP147_GRCh37p13)
+  setkey(gtexNew, rs_id_dbSNP151_GRCh38p7)
   gtexNew <- gtexNew[snps]
   gtexNew[]
 }

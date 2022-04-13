@@ -73,11 +73,10 @@ print(args)
 # cohorts <- cohorts[respIn]
 
 ##Testing X Cohorts
-# transNumID<- 1
+# transNumID<- 3
 # transcript <- transcriptIn[transNumID]
-# cohorts <- cohorts[1:3]
-# respIn  <- 7
-# tissues <- tissues[respIn]
+# cohorts <- cohorts[1:4]
+# respIn  <- 12
 # CorT    <- "C"
 # trait   <- "Alz"
 # AlzPheno<- "LOAD"
@@ -90,11 +89,11 @@ print(args)
 
 #####FIX buildVariantToRSIDmap() too slow ########
 #densemapdata <- buildVariantToRSIDmap()
-filepath <- file.path("","projects","sequence_analysis","vol3",
-                      "predix_Scan","GTEx-V6p_flowOver","gtex_data",
+filepath <- file.path("","projects","sequence_analysis","vol5",
+                      "dariusmb","gtex_data",
                       "")
 gtexFile <- paste(filepath,
-                  "GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_635Ind_PASS_AB02_GQ20_HETX_MISS15_PLINKQC.lookup_table.txt",
+                  "GTEx_Analysis_2017-06-05_v8_WholeGenomeSeq_838Indiv_Analysis_Freeze.lookup_table.txt",
                   sep="")
 
 df_cpassoc <- data.table()
@@ -229,9 +228,9 @@ print(tissues)
 print(transcript)
 
 gtexDat <- fread(gtexFile, stringsAsFactors = FALSE, h = TRUE)
-setkey(gtexDat, rs_id_dbSNP147_GRCh37p13)
+setkey(gtexDat, rs_id_dbSNP151_GRCh38p7)
 densemapdata <- gtexDat[!("."), .(variant_id,
-                                  rs_id_dbSNP147_GRCh37p13)] 
+                                  rs_id_dbSNP151_GRCh38p7)] 
 rm(gtexDat)
 
 gtex <- lapply(tissues, pred_gtex, trans = transcript,
