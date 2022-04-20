@@ -8,8 +8,8 @@ basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC_AD","output")
 
 # cohorts <- c("Alc_Dep","Family_Alcoholism","Marijuana_Strong_Desire","MJ","NIC")
-cohorts <- c("ADGC","ADNI","GENADA","MERGE","NIALOAD",
-             "ROSMAP","TARCC","TGEN2","WASHU")
+cohorts <- c("ADGC","ADNI","GENADA","NIALOAD",
+             "ROSMAP","TARCC","WASHU")
 
 pheno <- c("AAO","LOAD")
 
@@ -27,10 +27,17 @@ if(cohorts[1] == "ADGC"){
 #              'Putambasal_ganglia')
 
 ############v8_All_tissues
-tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
-          'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
-          ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia',
-          'Substantia_nigra')
+# tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
+#           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
+#           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia',
+#           'Substantia_nigra')
+
+##############v8_All_Tissues_AD
+tissueNames <- c('Amygdala','Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
+                 'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
+                 'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
+                 'Putambasal_ganglia','Spinal_cord_cervical_c-1','Substantia_nigra')
+
 
 # Addiction Analysis
 # combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
