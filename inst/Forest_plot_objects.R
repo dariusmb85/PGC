@@ -33,7 +33,7 @@ if(cohorts[1] == "ADGC"){
 #           'Substantia_nigra')
 
 ##############v8_All_Tissues_AD
-tissueNames <- c('Amygdala','Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
+tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
                  'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
                  'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
                  'Putambasal_ganglia','Spinal_cord_cervical_c-1','Substantia_nigra')
