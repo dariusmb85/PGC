@@ -35,6 +35,19 @@ buildSNPfiles <- function(phe){
          })
 }
 
+buildSNPfiles_AD <- function(phe){
+  pheC <- str_split(phe, pattern = "_")[[1]][1]
+  pheP <- str_split(phe, pattern = "_")[[1]][2]
+  if(pheP == "AAO"){
+    snpF <- paste0("/projects/sequence_analysis/vol3/predix_Scan/GTEx-V6p_flowOver/GEMMApipe_3/",
+                   pheC,"/",pheC,"_",pheP,"_plink/plink.qassoc")
+  }else if(pheP == "LOAD"){
+    snpF <- paste0("/projects/sequence_analysis/vol3/predix_Scan/GTEx-V6p_flowOver/GEMMApipe_3/",
+                   pheC,"/",pheC,"_",pheP,"_plink/plink.assoc")
+  }
+}
+
+
 ###############################
 # annoSNProws <- function(snpR,avsnp){
 #   setkey(avsnp, Chr, BEG, END)
@@ -177,14 +190,14 @@ get_Cpassoc_Data <- function(trait, cort, pheno){
                 print('Process xTissues CPASSOC')
                 cohorts <- cohorts[respIn]
                 cpFile <- file.path("MetaAnalysis_AcrossTissue",
-                                    "LOAD_results",paste0("MetaxTissue-FDR.Anno.txt"))
+                                    "LOAD_results_4_17_2022",paste0("MetaxTissue-FDR.Anno.txt"))
               },
               "C"={
                 #Across Cohort
                 print('Process xPheno CPASSOC')
                 tissues <- tissues[respIn]
                 cpFile <- file.path("MetaAnalysis_AcrossPheno",
-                                    "LOAD_results",paste0("MetaxPheno-FDR.Anno.txt"))
+                                    "LOAD_results_4_17_2022",paste0("MetaxPheno-FDR.Anno.txt"))
               })
     }else if(pheno == "AAO"){
       switch (CorT,
@@ -193,14 +206,14 @@ get_Cpassoc_Data <- function(trait, cort, pheno){
                 print('Process xTissues CPASSOC')
                 cohorts <- cohorts[respIn]
                 cpFile <- file.path("MetaAnalysis_AcrossTissue",
-                                    "AAO_results",paste0("MetaxTissue-FDR.Anno.txt"))
+                                    "AAO_results_4_17_2022",paste0("MetaxTissue-FDR.Anno.txt"))
               },
               "C"={
                 #Across Cohort
                 print('Process xPheno CPASSOC')
                 tissues <- tissues[respIn]
                 cpFile <- file.path("MetaAnalysis_AcrossPheno",
-                                    "AAO_results",paste0("MetaxPheno-FDR.Anno.txt"))
+                                    "AAO_results_4_17_2022",paste0("MetaxPheno-FDR.Anno.txt"))
               })
     }
   }else if(trait == "Addict"){
@@ -231,7 +244,7 @@ annoVarFile <- function(trait) {
                       "UCSFplink","avsnp150"))
       file_list <-list.files(pattern= "*hg19_multianno.txt$",
                              full.names = TRUE)
-      files <- lapply(file_list, function(x) fread(x, header = FALSE, 
+      files <- lapply(file_list, function(x) fread(x, header = TRUE, 
                                                    data.table=TRUE))
       files <- rbindlist(files)
       setnames(files,old = c("Start", "End"),
@@ -239,15 +252,17 @@ annoVarFile <- function(trait) {
     },
     "Alz"={
       #Alz
-      setwd(file.path("","home","dariusmb","GWAS_plink"))
-      file_list <- list.files(pattern= "*cohort_predict.bim$", 
+      setwd(file.path("","projects","sequence_analysis","vol3",
+                      "predix_Scan","GTEx-V6p_flowOver","GEMMApipe_3",
+                      "AnnoVar_Multianno_Files","hg19"))
+      file_list <- list.files(pattern= "*hg19_multianno.txt$$", 
                               full.names = TRUE, recursive = TRUE)
-      files <- lapply(file_list, function(x) fread(x, header = FALSE, 
+      files <- lapply(file_list, function(x) fread(x, header = TRUE, 
                                                    data.table=TRUE))
       files <- rbindlist(files)
-      setnames(files,c('Chr','avsnp150','morgans',
-                            'BEG','Ref','Alt'))
-      files <- files[avsnp150 %like% "rs"]
+      setnames(files,old = c("Start", "End"),
+               new = c("BEG", "END"))
+      # files <- files[avsnp150 %like% "rs"]
     }
   )
   return(files)

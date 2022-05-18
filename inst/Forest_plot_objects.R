@@ -2,6 +2,7 @@
 library('data.table')
 source('~/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
 source('~/GitHub/PGC/R/allClasses.R')
+library('tibble','stringr')
 # basedir <- file.path("","projects","sequence_analysis","vol5",
 #                      "dariusmb","PGC_v8","output")
 basedir <- file.path("","projects","sequence_analysis","vol5",
@@ -149,21 +150,40 @@ print(cohorts)
 print(transcript)
 print(basedir)
 
-switch(CorT,
-       "T"={
-         cohorts <- cohorts[respIn]
-         df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
-                                basedir = basedir, CorT = CorT)
-       },
-       "C"={
-         tissues <- tissues[respIn]
-         df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
-                                basedir = basedir, CorT = CorT)
-       }
-)
+if(AlzPheno == "AAO"){
+  switch(CorT,
+         "T"={
+           cohorts <- cohorts[respIn]
+           df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
+                                  basedir = basedir, CorT = CorT)
+         },
+         "C"={
+           tissues <- tissues[respIn]
+           df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
+                                  basedir = basedir, CorT = CorT)
+         }
+  )
+  df_predixcan <- rbindlist(df_predixcan)
+  df_predixcan <- df_predixcan[Tissue %like% "AAO"]
+}else if(AlzPheno == "LOAD"){
+  switch(CorT,
+         "T"={
+           cohorts <- cohorts[respIn]
+           df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
+                                  basedir = basedir, CorT = CorT)
+         },
+         "C"={
+           tissues <- tissues[respIn]
+           df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
+                                  basedir = basedir, CorT = CorT)
+         }
+  )
+  df_predixcan <- rbindlist(df_predixcan)
+  df_predixcan <- df_predixcan[Tissue %like% "_LOAD"]
+}
 
 
-df_predixcan <- rbindlist(df_predixcan)
+# df_predixcan <- rbindlist(df_predixcan)
 #setnames(df_predixcan, c('Tissue','weight','se','pval'))
 print(df_predixcan)
 
@@ -178,10 +198,11 @@ print(df_predixcan)
 # Keep the object SNPlist for the GTEX data object as well
 
 # Chr	Start	End	Ref	Alt	avsnp150  ##avnsp150 original header
-annoVarsnp <- annoVarFile(trait)
+annoVarsnp <- annoVarFile(trait) %>% 
+  unique(by="avsnp150")
 setwd(basedir)
 
-# switch (CorT,
+# switch (CorT,         ###########Addiction Analysis
 #   "T"={
 #     SNPfiles <- buildSNPfiles(phe = cohorts)
 #     SNProws <- fread(SNPfiles)
@@ -193,14 +214,55 @@ setwd(basedir)
 #     SNProws <- rbindlist(SNProws)
 #   }
 # )
-SNProws <- annoVarsnp
 
-# rm(SNPfiles)
+##################Alz Analysis
+switch (CorT,
+        "T"={
+          SNPfiles <- buildSNPfiles_AD(phe = cohorts)
+          SNProws <- fread(SNPfiles)
+        },
+        "C"={
+          #Across Cohorts
+          SNProws_aao <- list()
+          SNProws_load <- list()
+          SNPfiles <- lapply(cohorts, buildSNPfiles_AD)
+          SNProws <- lapply(SNPfiles,fread)
+          # SNProws <- rbindlist(SNProws)
+          for(i in 1:length(SNProws)){
+            if(i %% 2 == 1){
+              SNProws_aao <- cbind(SNProws_aao, SNProws[i])
+            }else if(i %% 2 == 0){
+              SNProws_load <- cbind(SNProws_load, SNProws[i])
+            }
+          }
+          SNProws_aao <- rbindlist(SNProws_aao)
+          SNProws_load <- rbindlist(SNProws_load)
+        }
+        
+)
+if(AlzPheno == "LOAD"){
+  SNProws <- SNProws_load[SNP %like% "rs"]
+  setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
+  SNProws <- mutate(SNProws,"SE" = abs(OR/ qnorm(P/2)))
+}else if(AlzPheno == "AAO"){
+  SNProws <- SNProws_aao[SNP %like% "rs"]
+  setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
+}
+
+
+rm(SNPfiles)
 # setnames(SNProws, old = "#CHROM", new = "Chr")
 # setkey(annoVarsnp, Chr, BEG, END)
 # setkey(SNProws, Chr, BEG, END)
 # SNProws <- SNProws[annoVarsnp]
 # rm(annoVarsnp)
+
+
+setkey(annoVarsnp, Chr, BEG)
+setkey(SNProws, Chr, BEG)
+SNProws <- SNProws[unique(annoVarsnp)]
+rm(annoVarsnp)
+
 
 fname <- combBrain
 weights <- fread(fname)
@@ -209,8 +271,16 @@ weights$gene <- gsub("[.].*", "", weights$gene)
 SNPlist <- unique(weights[weights[, gene] == transcript,
                           rsid])
 setkey(SNProws, avsnp150)
-# rowbetas <- SNProws[J(SNPlist), 
-#                     .(avsnp150, BETA, SEBETA , PVALUE)]
+if(AlzPheno == "LOAD"){
+  rowbetas <- SNProws[J(SNPlist),
+                      .(avsnp150, OR, SE , P)]
+  df_gwas <- rowbetas[, .(avsnp150, OR, SE, P)]
+}else if(AlzPheno == "AAO"){
+  rowbetas <- SNProws[J(SNPlist),
+                      .(avsnp150, BETA, SE, P)]
+  df_gwas <- rowbetas[, .(avsnp150, BETA, SE, P)]
+  
+}
 df_PrdxWts <- weights[weights[,gene] == transcript,
                       .(tissue,rsid, weight)]
 rm(SNProws)
@@ -220,9 +290,9 @@ print('Process SNP data')
 #                         SEBETA, PVALUE)]
 # rm(rowbetas)
 pred <- cohorts
-# df_gwas <- cbind(df_gwas, pred)
-# setnames(df_gwas, c('SNP', 'weight', 'se',
-                    # 'pval', 'predictor'))
+df_gwas <- cbind(df_gwas, pred)
+setnames(df_gwas, c('SNP', 'weight', 'se',
+                    'pval', 'predictor'))
 # rownames(df_gwas) <- NULL
 print(head(df_gwas))
 print(head(df_PrdxWts))
