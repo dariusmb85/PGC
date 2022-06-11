@@ -237,7 +237,8 @@ get_Cpassoc_Data <- function(trait, cort, pheno){
   return(cpFile)
 }
 ########################################################
-annoVarFile <- function(trait) {
+annoVarFile <- function(trait, coh) {
+  file_list_new <- list()
   switch (trait,
     "Addict" = {
       setwd(file.path("","projects","sequence_analysis","vol3",
@@ -257,7 +258,11 @@ annoVarFile <- function(trait) {
                       "AnnoVar_Multianno_Files","hg19"))
       file_list <- list.files(pattern= "*hg19_multianno.txt$$", 
                               full.names = TRUE, recursive = TRUE)
-      files <- lapply(file_list, function(x) fread(x, header = TRUE, 
+      for(i in 1:length(coh)){
+        ind <- grep(cohorts[i],file_list)
+        file_list_new <- c(file_list_new, file_list[ind])
+      }
+      files <- lapply(file_list_new, function(x) fread(x, header = TRUE, 
                                                    data.table=TRUE))
       files <- rbindlist(files)
       setnames(files,old = c("Start", "End"),

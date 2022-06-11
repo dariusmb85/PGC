@@ -2,9 +2,62 @@
 library('data.table')
 source('~/GitHub/PGC/inst/Forest_plot_objects_fxns.R')
 source('~/GitHub/PGC/R/allClasses.R')
-library('tibble','stringr')
-# basedir <- file.path("","projects","sequence_analysis","vol5",
-#                      "dariusmb","PGC_v8","output")
+library('tibble')
+library('stringr')
+library('dplyr')
+
+################################################################################
+
+# options(echo = FALSE) # if you want see commands in output file
+# args <- commandArgs(trailingOnly = TRUE)
+# transcriptIn <- args[1]
+# transNumID   <- args[2]
+# resp         <- args[3]
+# analysis     <- args[4]
+# CorT         <- args[5]
+# trait        <- args[6]
+# AlzPheno     <- args[7]
+# transcriptIn <- eval(parse(text = args[1]))
+# transNumID   <- eval(parse(text = args[2]))
+# resp         <- eval(parse(text = args[3]))
+# analysis     <- eval(parse(text = args[4]))
+# CorT         <- eval(parse(text = args[5]))
+# trait        <- eval(parse(text = args[6]))
+# AlzPheno     <- eval(parse(text = args[7]))
+# print(args)
+
+#print(transcriptIn)
+#print(transcriptIn[transNumID])
+
+#Testing
+
+###Testing X Tissues
+transcriptIn <- c("ENSG00000127364")
+translength <- length(transcriptIn)
+tissues <- tissues[2:6]
+respIn <- 5
+cohorts <- cohorts[respIn]
+AlzPheno <- "AAO"
+trait <- "Alz"
+analysis <- "Across_Tissue"
+CorT <- "T"
+
+##Testing X Cohorts
+transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
+translength <- length(transcriptIn)
+
+transNumID<- 3
+transcript <- transcriptIn[transNumID]
+# cohorts <- cohorts[1:4]
+resp    <- c(7,8,13,4)
+CorT    <- "C"
+trait   <- "Alz"
+AlzPheno<- "LOAD"
+
+
+
+################ Start of Script ######################
+
 basedir <- file.path("","projects","sequence_analysis","vol5",
                      "dariusmb","PGC_AD","output")
 
@@ -17,15 +70,6 @@ pheno <- c("AAO","LOAD")
 if(cohorts[1] == "ADGC"){
   cohorts <- AlzCohortBuilder(cohorts,pheno)
 }
-############v6p
-# tissues <- c('Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
-#           'Hippocampus','Nucleus_accumbens_basal_ganglia','Caudate_basal_ganglia'
-#           ,'Cerebellum','Frontal_Cortex_BA9','Hypothalamus','Putamen_basal_ganglia')
-############v8
-# tissues <- c('Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
-#              'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
-#              'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
-#              'Putambasal_ganglia')
 
 ############v8_All_tissues
 # tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Cerebellar_Hemisphere','Cortex',
@@ -35,9 +79,9 @@ if(cohorts[1] == "ADGC"){
 
 ##############v8_All_Tissues_AD
 tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia',
-                 'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
-                 'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
-                 'Putambasal_ganglia','Spinal_cord_cervical_c-1','Substantia_nigra')
+             'Cerebellar_Hemisphere','Cerebellum','Cortex','Frontal_Cortex_BA9',
+             'Hippocampus','Hypothalamus','Nucleus_accumbens_basal_ganglia',
+             'Putambasal_ganglia','Spinal_cord_cervical_c-1','Substantia_nigra')
 
 
 # Addiction Analysis
@@ -46,48 +90,9 @@ tissues <- c('Amygdala','Anterior_cingulate_cortex_BA24','Caudate_basal_ganglia'
 
 # Alz Analysis
 combBrain <- file.path("","projects","sequence_analysis","vol5","dariusmb",
-                      "PGC_AD","CombinedWeightsBrain.csv")
+                       "PGC_AD","CombinedWeightsBrain.csv")
 
-################################################################################
 
-options(echo = FALSE) # if you want see commands in output file
-args <- commandArgs(trailingOnly = TRUE)
-transcriptIn <- args[1]
-transNumID   <- args[2]
-resp         <- args[3]
-analysis     <- args[4]
-CorT         <- args[5]
-trait        <- args[6]
-AlzPheno     <- args[7]
-transcriptIn <- eval(parse(text = args[1]))
-transNumID   <- eval(parse(text = args[2]))
-resp         <- eval(parse(text = args[3]))
-analysis     <- eval(parse(text = args[4]))
-CorT         <- eval(parse(text = args[5]))
-trait        <- eval(parse(text = args[6]))
-AlzPheno     <- eval(parse(text = args[7]))
-print(args)
-#print(transcriptIn)
-#print(transcriptIn[transNumID])
-
-##Testing
-# transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
-# translength <- length(transcriptIn)
-
-###Testing X Tissues
-# tissues <- tissues[5:6]
-# respIn <- 2
-# respIn <- 9
-# cohorts <- cohorts[respIn]
-
-##Testing X Cohorts
-# transNumID<- 3
-# transcript <- transcriptIn[transNumID]
-# cohorts <- cohorts[1:4]
-# respIn  <- 12
-# CorT    <- "C"
-# trait   <- "Alz"
-# AlzPheno<- "LOAD"
 # Now we need to fetch data from disparate sources and build a final dataframe of the form
 #    cpassoc Shom-Shet phom-phet
 # expression beta se
@@ -95,8 +100,6 @@ print(args)
 #       gwas beta se
 # Add separate data table for subplot construction of the forest plots
 
-#####FIX buildVariantToRSIDmap() too slow ########
-#densemapdata <- buildVariantToRSIDmap()
 filepath <- file.path("","projects","sequence_analysis","vol5",
                       "dariusmb","gtex_data",
                       "")
@@ -133,6 +136,7 @@ if ( is.na(transcriptName) ){
 }
 df_cpassoc <- ccData[transcript, .(gene_name, phom,
                                    phet)]
+
 df_cpassoc <- df_cpassoc[phom == min(df_cpassoc$phom)]
 setnames(df_cpassoc, c('Gene Name', 'sHomPval',
                        'sHetPval'))
@@ -164,7 +168,6 @@ if(AlzPheno == "AAO"){
          }
   )
   df_predixcan <- rbindlist(df_predixcan)
-  df_predixcan <- df_predixcan[Tissue %like% "AAO"]
 }else if(AlzPheno == "LOAD"){
   switch(CorT,
          "T"={
@@ -183,8 +186,6 @@ if(AlzPheno == "AAO"){
 }
 
 
-# df_predixcan <- rbindlist(df_predixcan)
-#setnames(df_predixcan, c('Tissue','weight','se','pval'))
 print(df_predixcan)
 
 # For each SNP of this transcript. Grab all the known 
@@ -198,7 +199,8 @@ print(df_predixcan)
 # Keep the object SNPlist for the GTEX data object as well
 
 # Chr	Start	End	Ref	Alt	avsnp150  ##avnsp150 original header
-annoVarsnp <- annoVarFile(trait) %>% 
+
+annoVarsnp <- annoVarFile(trait,cohorts) %>% 
   unique(by="avsnp150")
 setwd(basedir)
 
@@ -245,7 +247,7 @@ if(AlzPheno == "LOAD"){
   setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
   SNProws <- mutate(SNProws,"SE" = abs(OR/ qnorm(P/2)))
 }else if(AlzPheno == "AAO"){
-  SNProws <- SNProws_aao[SNP %like% "rs"]
+  SNProws <- SNProws[SNP %like% "rs"]
   setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
 }
 
