@@ -8,23 +8,23 @@ library('dplyr')
 
 ################################################################################
 
-# options(echo = FALSE) # if you want see commands in output file
-# args <- commandArgs(trailingOnly = TRUE)
-# transcriptIn <- args[1]
-# transNumID   <- args[2]
-# resp         <- args[3]
-# analysis     <- args[4]
-# CorT         <- args[5]
-# trait        <- args[6]
-# AlzPheno     <- args[7]
-# transcriptIn <- eval(parse(text = args[1]))
-# transNumID   <- eval(parse(text = args[2]))
-# resp         <- eval(parse(text = args[3]))
-# analysis     <- eval(parse(text = args[4]))
-# CorT         <- eval(parse(text = args[5]))
-# trait        <- eval(parse(text = args[6]))
-# AlzPheno     <- eval(parse(text = args[7]))
-# print(args)
+options(echo = FALSE) # if you want see commands in output file
+args <- commandArgs(trailingOnly = TRUE)
+transcriptIn <- args[1]
+transNumID   <- args[2]
+resp         <- args[3]
+analysis     <- args[4]
+CorT         <- args[5]
+trait        <- args[6]
+AlzPheno     <- args[7]
+transcriptIn <- eval(parse(text = args[1]))
+transNumID   <- eval(parse(text = args[2]))
+resp         <- eval(parse(text = args[3]))
+analysis     <- eval(parse(text = args[4]))
+CorT         <- eval(parse(text = args[5]))
+trait        <- eval(parse(text = args[6]))
+AlzPheno     <- eval(parse(text = args[7]))
+print(args)
 
 #print(transcriptIn)
 #print(transcriptIn[transNumID])
@@ -32,28 +32,28 @@ library('dplyr')
 #Testing
 
 ###Testing X Tissues
-transcriptIn <- c("ENSG00000127364")
-translength <- length(transcriptIn)
-tissues <- tissues[2:6]
-respIn <- 5
-cohorts <- cohorts[respIn]
-AlzPheno <- "AAO"
-trait <- "Alz"
-analysis <- "Across_Tissue"
-CorT <- "T"
+# transcriptIn <- c("ENSG00000127364")
+# translength <- length(transcriptIn)
+# tissues <- tissues[2:6]
+# respIn <- 5
+# cohorts <- cohorts[respIn]
+# AlzPheno <- "AAO"
+# trait <- "Alz"
+# analysis <- "Across_Tissue"
+# CorT <- "T"
 
 ##Testing X Cohorts
-transcriptIn <- c('ENSG00000105696','ENSG00000137364','ENSG00000277149','ENSG00000277149')
-translength <- length(transcriptIn)
-
-transNumID<- 3
-transcript <- transcriptIn[transNumID]
-# cohorts <- cohorts[1:4]
-resp    <- c(7,8,13,4)
-CorT    <- "C"
-trait   <- "Alz"
-AlzPheno<- "LOAD"
-
+# transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
+# translength <- length(transcriptIn)
+# 
+# transNumID<- 3
+# transcript <- transcriptIn[transNumID]
+# # cohorts <- cohorts[1:4]
+# resp    <- c(8,6,8,10)
+# CorT    <- "C"
+# trait   <- "Alz"
+# AlzPheno<- "AAO"
+# 
 
 
 ################ Start of Script ######################
