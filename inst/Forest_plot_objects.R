@@ -117,7 +117,7 @@ print(paste('Processing next cohort', cohorts, sep="="))
 
 transcriptIn <- transcriptIn[transNumID]
 respIn <- resp[transNumID]
-
+# 
 transcript <- transcriptIn
 
 #TEST COMMIT
@@ -296,8 +296,8 @@ df_gwas <- cbind(df_gwas, pred)
 setnames(df_gwas, c('SNP', 'weight', 'se',
                     'pval', 'predictor'))
 # rownames(df_gwas) <- NULL
-print(head(df_gwas))
-print(head(df_PrdxWts))
+na.omit(df_gwas)
+na.omit((df_PrdxWts))
 # Fourth
 # For the items in SNPlist, for each tissue, grab the 
 # GTEX raw beta,se terms
