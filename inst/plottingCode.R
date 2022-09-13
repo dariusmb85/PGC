@@ -117,4 +117,10 @@ pltCPA <- function(x) {
   
 }
 
+fixInf <- function(datObj){
+  gwas <- datObj@gwas
+  gwas <- gwas[!is.infinite(gwas$weight) & !is.infinite(gwas$se),]
+  datObj@gwas <- gwas
+  return(datObj)
+}
 
