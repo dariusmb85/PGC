@@ -43,16 +43,16 @@ print(args)
 # CorT <- "T"
 
 ##Testing X Cohorts
-# transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
-# translength <- length(transcriptIn)
-# 
-# transNumID<- 3
-# transcript <- transcriptIn[transNumID]
-# # cohorts <- cohorts[1:4]
-# resp    <- c(8,6,8,10)
-# CorT    <- "C"
-# trait   <- "Alz"
-# AlzPheno<- "AAO"
+transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
+translength <- length(transcriptIn)
+
+transNumID<- 3
+transcript <- transcriptIn[transNumID]
+cohorts <- cohorts[1:4]
+resp    <- c(8,6,8,10)
+CorT    <- "C"
+trait   <- "Alz"
+AlzPheno<- "AAO"
 # 
 
 
@@ -168,6 +168,7 @@ if(AlzPheno == "AAO"){
          }
   )
   df_predixcan <- rbindlist(df_predixcan)
+  df_predixcan <- df_predixcan[Tissue %like% "_AAO"]
 }else if(AlzPheno == "LOAD"){
   switch(CorT,
          "T"={
