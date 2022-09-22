@@ -37,23 +37,23 @@ print(args)
 # tissues <- tissues[2:6]
 # respIn <- 5
 # cohorts <- cohorts[respIn]
-# AlzPheno <- "AAO"
+# AlzPheno <- "LOAD"
 # trait <- "Alz"
 # analysis <- "Across_Tissue"
 # CorT <- "T"
 
 ##Testing X Cohorts
-transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
-translength <- length(transcriptIn)
-
-transNumID<- 3
-transcript <- transcriptIn[transNumID]
-cohorts <- cohorts[1:4]
-resp    <- c(8,6,8,10)
-CorT    <- "C"
-trait   <- "Alz"
-AlzPheno<- "AAO"
+# transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
+# translength <- length(transcriptIn)
 # 
+# transNumID<- 3
+# transcript <- transcriptIn[transNumID]
+# cohorts <- cohorts[1:4]
+# resp    <- c(8,6,8,10)
+# CorT    <- "C"
+# trait   <- "Alz"
+# AlzPheno<- "AAO"
+# # 
 
 
 ################ Start of Script ######################
@@ -160,30 +160,32 @@ if(AlzPheno == "AAO"){
            cohorts <- cohorts[respIn]
            df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
                                   basedir = basedir, CorT = CorT)
+           df_predixcan <- rbindlist(df_predixcan)
          },
          "C"={
            tissues <- tissues[respIn]
            df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
                                   basedir = basedir, CorT = CorT)
+           df_predixcan <- rbindlist(df_predixcan)
+           df_predixcan <- df_predixcan[Tissue %like% "_AAO"]
          }
   )
-  df_predixcan <- rbindlist(df_predixcan)
-  df_predixcan <- df_predixcan[Tissue %like% "_AAO"]
 }else if(AlzPheno == "LOAD"){
   switch(CorT,
          "T"={
            cohorts <- cohorts[respIn]
            df_predixcan <- lapply(tissues, pred_df,coh = cohorts,
                                   basedir = basedir, CorT = CorT)
+           df_predixcan <- rbindlist(df_predixcan)
          },
          "C"={
            tissues <- tissues[respIn]
            df_predixcan <- lapply(cohorts, pred_df, tis = tissues, 
                                   basedir = basedir, CorT = CorT)
+           df_predixcan <- rbindlist(df_predixcan)
+           df_predixcan <- df_predixcan[Tissue %like% "_LOAD"]
          }
   )
-  df_predixcan <- rbindlist(df_predixcan)
-  df_predixcan <- df_predixcan[Tissue %like% "_LOAD"]
 }
 
 
