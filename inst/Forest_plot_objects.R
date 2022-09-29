@@ -31,12 +31,13 @@ print(args)
 
 #Testing
 
-###Testing X Tissues
-# transcriptIn <- c("ENSG00000127364")
+# ###Testing X Tissues
+# transcriptIn <- c('ENSG00000163682','ENSG00000018699','ENSG00000142188','ENSG00000010282','ENSG00000174080','ENSG00000089351','ENSG00000083067','ENSG00000268362','ENSG00000268362','ENSG00000246898')
 # translength <- length(transcriptIn)
+# transNumID <- 2
 # tissues <- tissues[2:6]
-# respIn <- 5
-# cohorts <- cohorts[respIn]
+# resp <- c(2,10,10,14,6,6,6,10,14,10)
+# cohorts <- cohorts[resp[transNumID]]
 # AlzPheno <- "LOAD"
 # trait <- "Alz"
 # analysis <- "Across_Tissue"
@@ -54,7 +55,6 @@ print(args)
 # trait   <- "Alz"
 # AlzPheno<- "AAO"
 # # 
-
 
 ################ Start of Script ######################
 
@@ -223,8 +223,15 @@ setwd(basedir)
 ##################Alz Analysis
 switch (CorT,
         "T"={
+          SNProws_aao <- list()
+          SNProws_load <- list()
           SNPfiles <- buildSNPfiles_AD(phe = cohorts)
           SNProws <- fread(SNPfiles)
+          if(AlzPheno == "LOAD"){
+            SNProws_load <- SNProws
+          }else if(AlzPheno == "AAO"){
+            SNProws_aao <- SNProws
+          }
         },
         "C"={
           #Across Cohorts
