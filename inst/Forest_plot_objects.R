@@ -43,18 +43,18 @@ print(args)
 # analysis <- "Across_Tissue"
 # CorT <- "T"
 
-##Testing X Cohorts
-transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
-translength <- length(transcriptIn)
-
-transNumID<- 3
-transcript <- transcriptIn[transNumID]
-cohorts <- cohorts[1:4]
-resp    <- c(8,6,8,10)
-CorT    <- "C"
-trait   <- "Alz"
-AlzPheno<- "AAO"
-#
+# ##Testing X Cohorts
+# transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
+# translength <- length(transcriptIn)
+# 
+# transNumID<- 3
+# transcript <- transcriptIn[transNumID]
+# cohorts <- cohorts[1:4]
+# resp    <- c(8,6,8,10)
+# CorT    <- "C"
+# trait   <- "Alz"
+# AlzPheno<- "AAO"
+# #
 
 ################ Start of Script ######################
 
