@@ -44,17 +44,17 @@ print(args)
 # CorT <- "T"
 
 ##Testing X Cohorts
-# transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
-# translength <- length(transcriptIn)
-# 
-# transNumID<- 3
-# transcript <- transcriptIn[transNumID]
-# cohorts <- cohorts[1:4]
-# resp    <- c(8,6,8,10)
-# CorT    <- "C"
-# trait   <- "Alz"
-# AlzPheno<- "AAO"
-# # 
+transcriptIn <- c('ENSG00000104936','ENSG00000159905','ENSG00000100243','ENSG00000142252')
+translength <- length(transcriptIn)
+
+transNumID<- 3
+transcript <- transcriptIn[transNumID]
+cohorts <- cohorts[1:4]
+resp    <- c(8,6,8,10)
+CorT    <- "C"
+trait   <- "Alz"
+AlzPheno<- "AAO"
+#
 
 ################ Start of Script ######################
 
@@ -257,7 +257,7 @@ if(AlzPheno == "LOAD"){
   setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
   SNProws <- mutate(SNProws,"SE" = abs(OR/ qnorm(P/2)))
 }else if(AlzPheno == "AAO"){
-  SNProws <- SNProws[SNP %like% "rs"]
+  SNProws <- SNProws_aao[SNP %like% "rs"]
   setnames(SNProws, old = c("CHR","BP"), new = c("Chr","BEG"))
 }
 
