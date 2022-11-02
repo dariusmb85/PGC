@@ -256,7 +256,7 @@ annoVarFile <- function(trait, coh) {
       setwd(file.path("","projects","sequence_analysis","vol3",
                       "predix_Scan","GTEx-V6p_flowOver","GEMMApipe_3",
                       "AnnoVar_Multianno_Files","hg19"))
-      file_list <- list.files(pattern= "*hg19_multianno.txt$$", 
+      file_list <- list.files(pattern= "*hg19_multianno.txt$", 
                               full.names = TRUE, recursive = TRUE)
       for(i in 1:length(coh)){
         ind <- grep(cohorts[i],file_list)
